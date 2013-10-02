@@ -7,6 +7,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.content.Intent;
 
+import android.widget.TextView;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
 
 public class MainActivity extends Activity {
 
@@ -14,6 +18,12 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		String wakeUpCommand = prefs.getString("wakeup_cmd", "WAKE UP");
+		String info = getString(R.string.info);
+		TextView tv = (TextView)findViewById(R.id.info);
+		tv.setText(String.format(info, wakeUpCommand));
 	}
 
 
