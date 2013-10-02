@@ -27,11 +27,13 @@
 			android:defaultValue="False"
 			android:key="case_sensetive_cmp"
 			android:summary="Wakeup command is matched case sensetive" />
+<!--
 		<CheckBoxPreference
 			android:title="@string/prefs_vibrate_title"
 			android:defaultValue="True"
 			android:key="vibrate"
 			android:summary="@string/prefs_vibrate_summary" />
+-->
 <!--
 		<EditTextPreference
 			android:key="vibrate_time"
