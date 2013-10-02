@@ -28,11 +28,11 @@ public class SmsReceiver extends BroadcastReceiver {
 		boolean customAlarm = prefs.getBoolean("custom_alarm", false);
 		String alarmSound = prefs.getString("alarm_sound", "default ringtone");
 		String wakeUpCommand = prefs.getString("wakeup_cmd", "WAKE UP");
-		boolean CaseSensetiveCompare = prefs.getBoolean("case_sensetive_cmp", true);
-		boolean vibrate = prefs.getBoolean("vibrate", true);
-		int vibrateTime = Integer.parseInt(prefs.getString("vibrate_time", "3000"));
-//vibrate_timeboolean flash = prefs.getBoolean("flash", true);
-//flashboolean flashScreen = prefs.getBoolean("flash_screen", true);
+		boolean CaseSensetiveCompare = prefs.getBoolean("case_sensetive_cmp", false);
+//		boolean vibrate = prefs.getBoolean("vibrate", true);
+//		int vibrateTime = Integer.parseInt(prefs.getString("vibrate_time", "3000"));
+//boolean flash = prefs.getBoolean("flash", true);
+//boolean flashScreen = prefs.getBoolean("flash_screen", true);
 
 
 		Bundle pudsBundle = intent.getExtras();
@@ -54,12 +54,12 @@ public class SmsReceiver extends BroadcastReceiver {
 		if(message.equals(wakeUpCommand))
 		{
 			//http://android.konreu.com/developer-how-to/vibration-examples-for-android-phone-development/
-			if(vibrate)
-			{
-				// Get instance of Vibrator from current Context
-				Vibrator v = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
-				v.vibrate(vibrateTime);
-			}
+//			if(vibrate)
+//			{
+//				// Get instance of Vibrator from current Context
+//				Vibrator v = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
+//				v.vibrate(vibrateTime);
+//			}
 
 			Uri alarm = null;
 			if(customAlarm)
