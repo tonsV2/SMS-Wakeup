@@ -26,8 +26,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Preferences"></activity> 
 
+        <activity android:name=".Preferences"></activity>
+        <activity android:name=".BlacklistActivity"></activity>
 
         <receiver android:name=".SmsReceiver" android:exported="true">
                 <intent-filter android:priority="999">
