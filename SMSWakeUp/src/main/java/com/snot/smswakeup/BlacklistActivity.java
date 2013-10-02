@@ -16,6 +16,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.app.ListActivity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.provider.ContactsContract.Contacts;
+import android.provider.ContactsContract.CommonDataKinds.Phone;
+import android.app.Activity;
+
+
 
 import com.snot.smswakeup.database.Blacklist;
 import com.snot.smswakeup.database.Provider;
@@ -27,6 +34,8 @@ import com.snot.smswakeup.database.Provider;
 
 
 public class BlacklistActivity extends ListActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+
+	 private static final int PICK_CONTACT_REQUEST = 1;  // The request code
 
     public BlacklistActivity() {
     }
@@ -90,10 +99,69 @@ public class BlacklistActivity extends ListActivity implements LoaderManager.Loa
 	Toast.makeText(this, blacklist.phoneNumber, Toast.LENGTH_SHORT).show();
     }
 
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        super.onCreateOptionsMenu(menu, inflater);
-//inflaterinflater.inflate(R.menu.exercise_list, menu);
-//    }
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.blacklist, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch(item.getItemId())
+		{
+		case R.id.action_settings:
+			Intent settings = new Intent(this, Preferences.class);
+			startActivity(settings);
+			return true;
+		case R.id.action_add_contact:
+			pickContact();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
+        /** Shows contact picker dialog
+         */
+        public void pickContact() {
+            Intent intent = new Intent(Intent.ACTION_PICK, Contacts.CONTENT_URI);
+            intent.setType(Phone.CONTENT_TYPE); // Show user only contacts w/ phone numbers
+            startActivityForResult(intent, PICK_CONTACT_REQUEST);
+        }
+
+        @Override
+        public void onActivityResult( int requestCode, int resultCode, Intent intent ) {
+                super.onActivityResult( requestCode, resultCode, intent );
+                if(resultCode == Activity.RESULT_OK) {
+                        if(requestCode == PICK_CONTACT_REQUEST) {
+                                handleContact(intent);
+                        }
+                }
+        }
+
+        private void handleContact(Intent intent)
+        {
+                final String phoneNumber = getPhoneNumber(intent.getData());
+		// TODO: add number to black list
+		Toast.makeText(this, phoneNumber, Toast.LENGTH_SHORT).show();
+	}
+
+        private String getPhoneNumber(Uri contact)
+        {
+                String[] projection = {Phone.NUMBER};
+                Cursor cursor = this.getContentResolver().query(contact, projection, null, null, null);
+                cursor.moveToFirst();
+                // Retrieve the phone number from the NUMBER column
+                int column = cursor.getColumnIndex(Phone.NUMBER);
+                String phoneNumber = null;
+                if(column != -1)
+                {
+                        phoneNumber = cursor.getString(column);
+                }
+                cursor.close();
+                return phoneNumber;
+        }
 }
 
