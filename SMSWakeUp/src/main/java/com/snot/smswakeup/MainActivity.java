@@ -43,10 +43,10 @@ public class MainActivity extends Activity {
 			Intent settings = new Intent(this, Preferences.class);
 			startActivity(settings);
 			return true;
-//		case R.id.action_add_contact:
-//			Intent contact = new Intent(Intent.ACTION_PICK, Contacts.CONTENT_URI);
-//			startActivityForResult(contact, R.id.action_add_contact);
-//			return true;
+		case R.id.action_blacklist:
+			Intent blacklist = new Intent(this, BlacklistActivity.class);
+			startActivity(blacklist);
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
