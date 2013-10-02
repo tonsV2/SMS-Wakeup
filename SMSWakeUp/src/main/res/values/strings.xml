@@ -1,8 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">SMS Wake Up</string>
+    <string name="app_name">SMS Wake Up!</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+
+<!-- Preferences -->
+        <string name="prefs_title">Preferences</string>
+
+        <string name="prefs_custom_alarm_title">Custom alarm</string>
+        <string name="prefs_custom_alarm_summary">Choose alarm sound from ringtones</string>
+
+        <string name="prefs_alarm_sound">Alarm sound</string>
+
+        <string name="prefs_keep_playing_title">Keep playing</string>
+        <string name="prefs_keep_playing_summary">Keep playing until alarm is disabled</string>
+
+        <string name="prefs_wakeup_cmd_title">Wake up command</string>
+        <string name="prefs_wakeup_cmd_summary">Define the text message which triggers the alarm</string>
+        <string name="prefs_wakeup_cmd_default">WAKE UP</string>
+        <string name="prefs_edit_wakeup_cmd_title">Edit</string>
+
+        <string name="prefs_case_sensetive_cmp_title">Case sensetive command</string>
+        <string name="prefs_case_sensetive_cmp_summary">Wakeup command is matched case sensetive</string>
+
+        <string name="prefs_vibrate_title">Vibrate</string>
+        <string name="prefs_vibrate_summary">Vibrate on alarm</string>
+
+        <string name="prefs_vibrate_time_title">Vibrate time</string>
+        <string name="prefs_vibrate_time_summary">Time to vibrate in milliseconds</string>
+
+
+        <string name="prefs_flash_title">Flash</string>
+        <string name="prefs_flash_summary">Use flashlight on alarm</string>
+
+        <string name="prefs_flash_screen_title">Flash screen</string>
+        <string name="prefs_flash_screen_summary">Flash screen on alarm</string>
 
 </resources>
