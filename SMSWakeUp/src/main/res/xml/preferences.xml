@@ -16,5 +16,10 @@
 		android:defaultValue="True"
 		android:key="keep_playing"
 		android:summary="@string/prefs_keep_playing_summary" />
+	<CheckBoxPreference
+		android:title="@string/prefs_maximize_volume_title"
+		android:defaultValue="True"
+		android:key="maximize_volume"
+		android:summary="@string/prefs_maximize_volume_summary" />
 </PreferenceScreen>
 

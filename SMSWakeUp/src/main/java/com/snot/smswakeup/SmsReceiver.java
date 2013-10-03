@@ -26,8 +26,6 @@ import com.snot.smswakeup.database.Provider;
 /**
  * @author snot
  *
- * TODO: show notification when unauthorized user sends command
- * TODO: move sharedpreferences population into constructor so it's not called each time an sms is received
  * TODO: refactor alarm handling into a method of it's own
  */
 public class SmsReceiver extends BroadcastReceiver {
@@ -46,7 +44,7 @@ public class SmsReceiver extends BroadcastReceiver {
 		prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		// TODO: dont hard code strings
 		String wakeUpCommand = prefs.getString("wakeup_cmd", "WAKE UP");
-		boolean CaseSensetiveCompare = prefs.getBoolean("case_sensetive_cmp", false);
+		boolean caseSensetiveCompare = prefs.getBoolean("case_sensetive_cmp", false);
 
 		Bundle pudsBundle = intent.getExtras();
 		Object[] pdus = (Object[]) pudsBundle.get("pdus");
@@ -55,7 +53,7 @@ public class SmsReceiver extends BroadcastReceiver {
 		String phoneNumber = sms.getOriginatingAddress();
 		String message = sms.getMessageBody().trim();
 
-		if(!CaseSensetiveCompare)
+		if(!caseSensetiveCompare)
 		{
 			wakeUpCommand = wakeUpCommand.toLowerCase();
 			message = message.toLowerCase();
@@ -79,10 +77,13 @@ public class SmsReceiver extends BroadcastReceiver {
 
 	private void soundAlarm()
 	{
-		// TODO: should be based on config...
+		boolean maximizeVolume = prefs.getBoolean("maximize_volume", true);
 		// Maximize volume
-		AudioManager am = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
-		am.setStreamVolume(AudioManager.STREAM_MUSIC, am.getStreamMaxVolume(AudioManager.STREAM_MUSIC), 0);
+		if(maximizeVolume)
+		{
+			AudioManager am = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
+			am.setStreamVolume(AudioManager.STREAM_MUSIC, am.getStreamMaxVolume(AudioManager.STREAM_MUSIC), 0);
+		}
 		// Sound alarm
 		SoundAlarm.getInstance().initalizeMediaPlayer(context);
 		SoundAlarm.getInstance().start();

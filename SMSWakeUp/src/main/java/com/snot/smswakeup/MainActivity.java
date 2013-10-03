@@ -34,7 +34,7 @@ public class MainActivity extends Activity {
 			boolean silenceAlarm = bundle.getBoolean(INTENT_SILENCE);
 			if(silenceAlarm)
 			{
-				Toast.makeText(this, "Shhh...", Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, getString(R.string.silence_toast), Toast.LENGTH_SHORT).show();
 				SoundAlarm.getInstance().stop();
 			}
 		}

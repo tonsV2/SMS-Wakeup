@@ -8,6 +8,7 @@
     <string name="info">Whenever you receive an SMS with \'%s\' as content an alarm will go off.\n\nNot all your friends might be able to handle the power which comes with this app. Therefor you will be able to blacklist certain numbers by choosing blacklist from the menu.\n\nVarious customizations can be found under settings from the menu.</string>
     <string name="blacklist_activity_title">Blacklist</string>
     <string name="preferences_activity_title">Settings</string>
+    <string name="silence_toast">Shhh...</string>
 
 <!-- Preferences -->
         <string name="prefs_title">Preferences</string>
@@ -40,5 +41,8 @@
 
         <string name="prefs_flash_screen_title">Flash screen</string>
         <string name="prefs_flash_screen_summary">Flash screen on alarm</string>
+
+	<string name="prefs_maximize_volume_title">Maximize volume</string>
+	<string name="prefs_maximize_volume_summary">Override silent mode.</string>
 
 </resources>
