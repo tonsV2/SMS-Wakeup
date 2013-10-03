@@ -18,6 +18,7 @@ import android.support.v4.app.NotificationCompat;
 import android.app.Notification;
 import android.app.PendingIntent;
 
+import android.media.AudioManager;
 
 import com.snot.smswakeup.database.Blacklist;
 import com.snot.smswakeup.database.Provider;
@@ -46,10 +47,6 @@ public class SmsReceiver extends BroadcastReceiver {
 		// TODO: dont hard code strings
 		String wakeUpCommand = prefs.getString("wakeup_cmd", "WAKE UP");
 		boolean CaseSensetiveCompare = prefs.getBoolean("case_sensetive_cmp", false);
-//		boolean vibrate = prefs.getBoolean("vibrate", true);
-//		int vibrateTime = Integer.parseInt(prefs.getString("vibrate_time", "3000"));
-//boolean flash = prefs.getBoolean("flash", true);
-//boolean flashScreen = prefs.getBoolean("flash_screen", true);
 
 		Bundle pudsBundle = intent.getExtras();
 		Object[] pdus = (Object[]) pudsBundle.get("pdus");
@@ -72,14 +69,6 @@ public class SmsReceiver extends BroadcastReceiver {
 		{
 			AlarmNotification("Wake up msg from " + phoneNumber);
 			soundAlarm();
-			//http://android.konreu.com/developer-how-to/vibration-examples-for-android-phone-development/
-//			if(vibrate)
-//			{
-//				// Get instance of Vibrator from current Context
-//				Vibrator v = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
-//				v.vibrate(vibrateTime);
-//			}
-
 		}
 		if(isBlacklisted)
 		{
@@ -90,24 +79,13 @@ public class SmsReceiver extends BroadcastReceiver {
 
 	private void soundAlarm()
 	{
+		// TODO: should be based on config...
+		// Maximize volume
+		AudioManager am = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
+		am.setStreamVolume(AudioManager.STREAM_MUSIC, am.getStreamMaxVolume(AudioManager.STREAM_MUSIC), 0);
+		// Sound alarm
 		SoundAlarm.getInstance().initalizeMediaPlayer(context);
 		SoundAlarm.getInstance().start();
-
-//		boolean customAlarm = prefs.getBoolean("custom_alarm", false);
-//		String alarmSound = prefs.getString("alarm_sound", "default ringtone");
-//		// TODO: loop alarm
-//		Uri alarm = null;
-//		if(customAlarm)
-//		{
-//			alarm = Uri.parse(alarmSound);
-//		}
-//		else
-//		{
-//			alarm = Uri.parse("android.resource://" + context.getPackageName() + "/" + R.raw.alarm_sound);
-//		}
-//
-//		Ringtone r = RingtoneManager.getRingtone(context, alarm);
-//		r.play();
 	}
 	
 	private boolean isBlacklisted(String phoneNumber)
