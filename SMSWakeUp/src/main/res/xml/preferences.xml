@@ -1,21 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 	<PreferenceCategory android:title="@string/prefs_title">
-		<CheckBoxPreference
-			android:title="@string/prefs_custom_alarm_title"
-			android:defaultValue="False"
-			android:key="custom_alarm"
-			android:summary="@string/prefs_custom_alarm_summary" />
-	    <RingtonePreference
-			android:key="alarm_sound"
-			android:title="@string/prefs_alarm_sound"
-			android:dependency="custom_alarm"
-			android:ringtoneType="notification" />
-		<CheckBoxPreference
-			android:title="@string/prefs_keep_playing_title"
-			android:defaultValue="True"
-			android:key="keep_playing"
-			android:summary="@string/prefs_keep_playing_summary" />
 		<EditTextPreference
 			android:key="wakeup_cmd"
 			android:title="@string/prefs_wakeup_cmd_title"
@@ -27,34 +12,11 @@
 			android:defaultValue="False"
 			android:key="case_sensetive_cmp"
 			android:summary="Wakeup command is matched case sensetive" />
-<!--
 		<CheckBoxPreference
-			android:title="@string/prefs_vibrate_title"
+			android:title="@string/prefs_keep_playing_title"
 			android:defaultValue="True"
-			android:key="vibrate"
-			android:summary="@string/prefs_vibrate_summary" />
--->
-<!--
-		<EditTextPreference
-			android:key="vibrate_time"
-			android:title="@string/prefs_vibrate_time_title"
-			android:summary="@string/prefs_vibrate_time_summary"
-			android:numeric="integer"
-			android:dependency="vibrate"
-			android:defaultValue="3000" />
--->
-		<!-- 
-		<CheckBoxPreference
-			android:title="@string/prefs_flash_title"
-			android:defaultValue="False"
-			android:key="flash"
-			android:summary="Use flashlight on alarm" />
-		<CheckBoxPreference
-			android:title="@string/prefs_flash_screen_title"
-			android:defaultValue="False"
-			android:key="flash_screen"
-			android:summary="@string/prefs_flash_screen_summary" />
-		-->
+			android:key="keep_playing"
+			android:summary="@string/prefs_keep_playing_summary" />
 	</PreferenceCategory>
 </PreferenceScreen>
 
