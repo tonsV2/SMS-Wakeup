@@ -9,7 +9,7 @@
         android:targetSdkVersion="16" />
 
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
-    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
 
     <application
@@ -35,6 +35,12 @@
                         <action android:name="android.provider.Telephony.SMS_RECEIVED"></action>
                 </intent-filter>
         </receiver>
+
+        <provider
+                android:name=".database.Provider"
+                android:authorities="com.snot.smswakeup.database.provider"
+                android:enabled="true"
+                android:exported="false" />
 
     </application>
 

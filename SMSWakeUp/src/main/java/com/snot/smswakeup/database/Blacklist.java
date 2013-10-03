@@ -27,10 +27,12 @@ public class Blacklist {
      * Note that the last row does NOT end in a comma like the others.
      * This is a common source of error.
      */
+     // TODO: make phoneNumber col unique
+     // http://stackoverflow.com/questions/7836561/add-unique-index-sqlite3
     public static final String CREATE_TABLE =
             "CREATE TABLE " + TABLE_NAME + "("
                     + COL_ID + " INTEGER PRIMARY KEY,"
-                    + COL_PHONE_NUMBER + " TEXT NOT NULL,"
+                    + COL_PHONE_NUMBER + " TEXT NOT NULL"
                     + ")";
 
     // Fields corresponding to database columns
@@ -49,7 +51,7 @@ public class Blacklist {
     public Blacklist(final Cursor cursor) {
         // Indices expected to match order in FIELDS!
         this.id = cursor.getLong(0);
-        this.phoneNumber = cursor.getString(3);
+        this.phoneNumber = cursor.getString(1);
     }
 
     /**
