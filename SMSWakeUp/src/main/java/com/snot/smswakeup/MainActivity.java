@@ -8,16 +8,35 @@ import android.view.MenuItem;
 import android.content.Intent;
 
 import android.widget.TextView;
+import android.widget.Toast;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+
+import android.util.Log;
+
 
 public class MainActivity extends Activity {
+
+	public static final String TAG = "MainActivity";
+	public static final String INTENT_SILENCE = "1";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+		Bundle bundle = this.getIntent().getExtras();
+		if(bundle != null)
+		{
+			boolean silenceAlarm = bundle.getBoolean(INTENT_SILENCE);
+			if(silenceAlarm)
+			{
+				Toast.makeText(this, "Shhh...", Toast.LENGTH_SHORT).show();
+			}
+		}
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		String wakeUpCommand = prefs.getString("wakeup_cmd", "WAKE UP");

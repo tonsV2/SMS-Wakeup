@@ -13,6 +13,11 @@ import android.preference.PreferenceManager;
 import android.telephony.SmsMessage;
 import android.database.Cursor;
 import android.util.Log;
+import android.app.NotificationManager;
+import android.support.v4.app.NotificationCompat;
+import android.app.Notification;
+import android.app.PendingIntent;
+
 
 import com.snot.smswakeup.database.Blacklist;
 import com.snot.smswakeup.database.Provider;
@@ -29,21 +34,22 @@ public class SmsReceiver extends BroadcastReceiver {
 	private final static String TAG = "SmsReceiver";
 	Context context;
 
+	SharedPreferences prefs;
+	public static final int NOTIFICATION_ID = 1;
+	NotificationCompat.Builder builder;
+
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		this.context = context;
 
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		// TODO: dont hard code strings
-		boolean customAlarm = prefs.getBoolean("custom_alarm", false);
-		String alarmSound = prefs.getString("alarm_sound", "default ringtone");
 		String wakeUpCommand = prefs.getString("wakeup_cmd", "WAKE UP");
 		boolean CaseSensetiveCompare = prefs.getBoolean("case_sensetive_cmp", false);
 //		boolean vibrate = prefs.getBoolean("vibrate", true);
 //		int vibrateTime = Integer.parseInt(prefs.getString("vibrate_time", "3000"));
 //boolean flash = prefs.getBoolean("flash", true);
 //boolean flashScreen = prefs.getBoolean("flash_screen", true);
-
 
 		Bundle pudsBundle = intent.getExtras();
 		Object[] pdus = (Object[]) pudsBundle.get("pdus");
@@ -58,11 +64,14 @@ public class SmsReceiver extends BroadcastReceiver {
 			message = message.toLowerCase();
 		}
 
-		if(message.equals(wakeUpCommand) && !isBlacklisted(phoneNumber))
-		{
-			Log.d(TAG, "" + isBlacklisted(phoneNumber));
-			Log.d(TAG, phoneNumber);
+		Log.d(TAG, phoneNumber);
+		boolean isBlacklisted = isBlacklisted(phoneNumber);
+		Log.d(TAG, "isBlacklisted: " + isBlacklisted);
 
+		if(message.equals(wakeUpCommand) && !isBlacklisted)
+		{
+			AlarmNotification("Wake up msg from " + phoneNumber);
+			soundAlarm();
 			//http://android.konreu.com/developer-how-to/vibration-examples-for-android-phone-development/
 //			if(vibrate)
 //			{
@@ -71,21 +80,31 @@ public class SmsReceiver extends BroadcastReceiver {
 //				v.vibrate(vibrateTime);
 //			}
 
-			Uri alarm = null;
-			if(customAlarm)
-			{
-				alarm = Uri.parse(alarmSound);
-			}
-			else
-			{
-				alarm = Uri.parse("android.resource://" + context.getPackageName() + "/" + R.raw.alarm_sound);
-			}
-
-			Ringtone r = RingtoneManager.getRingtone(context, alarm);
-			r.play();
 		}
+		if(isBlacklisted)
+		{
+			BlacklistNotification("Message from blacklisted number: " + phoneNumber);
+		}
+	}
+
+
+	private void soundAlarm()
+	{
+		boolean customAlarm = prefs.getBoolean("custom_alarm", false);
+		String alarmSound = prefs.getString("alarm_sound", "default ringtone");
 		// TODO: loop alarm
-		// TODO: notification to stop alarm
+		Uri alarm = null;
+		if(customAlarm)
+		{
+			alarm = Uri.parse(alarmSound);
+		}
+		else
+		{
+			alarm = Uri.parse("android.resource://" + context.getPackageName() + "/" + R.raw.alarm_sound);
+		}
+
+		Ringtone r = RingtoneManager.getRingtone(context, alarm);
+		r.play();
 	}
 	
 	private boolean isBlacklisted(String phoneNumber)
@@ -97,5 +116,37 @@ public class SmsReceiver extends BroadcastReceiver {
 			null);
 		return(cursor.getCount() > 0);
 	}
+
+	private void BlacklistNotification(String msg) {
+		Log.d(TAG, "BlacklistNotification");
+		Intent intent = new Intent(context, BlacklistActivity.class);
+		sendNotification(msg, intent);
+	}
+
+	private void AlarmNotification(String msg) {
+		Log.d(TAG, "AlarmNotification");
+		Intent intent = new Intent(context, MainActivity.class);
+		intent.putExtra(MainActivity.INTENT_SILENCE, true);
+		sendNotification(msg, intent);
+	}
+
+	private void sendNotification(String msg, Intent intent) {
+		NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+		Notification notification = new NotificationCompat.Builder(context)
+			.setSmallIcon(R.drawable.ic_launcher)
+			.setContentTitle(context.getString(R.string.app_name))
+			.setStyle(new NotificationCompat.BigTextStyle())
+			.setContentText(msg)
+			.setContentIntent(contentIntent)
+			.build();
+
+		notification.flags |= Notification.FLAG_AUTO_CANCEL;
+
+		notificationManager.notify(NOTIFICATION_ID, notification);
+	}
+
 }
 
