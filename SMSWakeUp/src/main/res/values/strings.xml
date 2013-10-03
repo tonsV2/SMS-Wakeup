@@ -6,6 +6,7 @@
     <string name="action_blacklist">Blacklist</string>
     <string name="action_add_contact">Add</string>
     <string name="info">Whenever you receive an SMS with \'%s\' as content an alarm will go off.\n\nThis alarm, along with various other things, can be customized under settings.\n\nIf you swipe right you will find a list of numbers which are blacklisted.</string>
+    <string name="blacklist_activity_title">Blacklist</string>
 
 <!-- Preferences -->
         <string name="prefs_title">Preferences</string>
