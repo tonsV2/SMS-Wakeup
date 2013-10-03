@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-	<PreferenceCategory android:title="@string/prefs_title">
-		<EditTextPreference
-			android:key="wakeup_cmd"
-			android:title="@string/prefs_wakeup_cmd_title"
-			android:summary="@string/prefs_wakeup_cmd_summary"
-			android:dialogTitle="@string/prefs_edit_wakeup_cmd_title"
-			android:defaultValue="@string/prefs_wakeup_cmd_default" />
-		<CheckBoxPreference
-			android:title="@string/prefs_case_sensetive_cmp_title"
-			android:defaultValue="False"
-			android:key="case_sensetive_cmp"
-			android:summary="Wakeup command is matched case sensetive" />
-		<CheckBoxPreference
-			android:title="@string/prefs_keep_playing_title"
-			android:defaultValue="True"
-			android:key="keep_playing"
-			android:summary="@string/prefs_keep_playing_summary" />
-	</PreferenceCategory>
+	<EditTextPreference
+		android:key="wakeup_cmd"
+		android:title="@string/prefs_wakeup_cmd_title"
+		android:summary="@string/prefs_wakeup_cmd_summary"
+		android:dialogTitle="@string/prefs_edit_wakeup_cmd_title"
+		android:defaultValue="@string/prefs_wakeup_cmd_default" />
+	<CheckBoxPreference
+		android:title="@string/prefs_case_sensetive_cmp_title"
+		android:defaultValue="False"
+		android:key="case_sensetive_cmp"
+		android:summary="Wakeup command is matched case sensetive" />
+	<CheckBoxPreference
+		android:title="@string/prefs_keep_playing_title"
+		android:defaultValue="True"
+		android:key="keep_playing"
+		android:summary="@string/prefs_keep_playing_summary" />
 </PreferenceScreen>
 
