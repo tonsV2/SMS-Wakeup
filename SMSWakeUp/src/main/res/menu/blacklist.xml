@@ -1,6 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/action_add_contact"
         android:title="@string/action_add_contact"
+	android:icon="@drawable/ic_action_add_person"
         android:orderInCategory="100"
         android:showAsAction="always" />
 
