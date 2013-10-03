@@ -8,6 +8,7 @@ public class Preferences extends PreferenceActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setTitle(getString(R.string.preferences_activity_title));
 		// Display the fragment as the main content.
 //maingetFragmentManager().beginTransaction().replace(android.R.id.content, new PreferencesFragment()).commit();
 //PreferencesFragmentPreferenceManager.setDefaultValues(Preferences.this, R.menu.preferences, false);
