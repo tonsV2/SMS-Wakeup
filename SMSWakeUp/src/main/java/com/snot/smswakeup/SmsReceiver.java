@@ -11,6 +11,11 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.telephony.SmsMessage;
+import android.database.Cursor;
+import android.util.Log;
+
+import com.snot.smswakeup.database.Blacklist;
+import com.snot.smswakeup.database.Provider;
 
 /**
  * @author snot
@@ -21,8 +26,13 @@ import android.telephony.SmsMessage;
  */
 public class SmsReceiver extends BroadcastReceiver {
 
+	private final static String TAG = "SmsReceiver";
+	Context context;
+
 	@Override
 	public void onReceive(Context context, Intent intent) {
+		this.context = context;
+
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		// TODO: dont hard code strings
 		boolean customAlarm = prefs.getBoolean("custom_alarm", false);
@@ -42,17 +52,17 @@ public class SmsReceiver extends BroadcastReceiver {
 		String phoneNumber = sms.getOriginatingAddress();
 		String message = sms.getMessageBody().trim();
 
-		// TODO: implement whitelist database
-		// if(wl.has(phoneNumber))
-
 		if(!CaseSensetiveCompare)
 		{
 			wakeUpCommand = wakeUpCommand.toLowerCase();
 			message = message.toLowerCase();
 		}
 
-		if(message.equals(wakeUpCommand))
+		if(message.equals(wakeUpCommand) && !isBlacklisted(phoneNumber))
 		{
+			Log.d(TAG, "" + isBlacklisted(phoneNumber));
+			Log.d(TAG, phoneNumber);
+
 			//http://android.konreu.com/developer-how-to/vibration-examples-for-android-phone-development/
 //			if(vibrate)
 //			{
@@ -76,6 +86,16 @@ public class SmsReceiver extends BroadcastReceiver {
 		}
 		// TODO: loop alarm
 		// TODO: notification to stop alarm
+	}
+	
+	private boolean isBlacklisted(String phoneNumber)
+	{
+		Cursor cursor = context.getContentResolver().query(Provider.URI_BLACKLIST,
+			new String[] { Blacklist.COL_PHONE_NUMBER },
+			Blacklist.COL_PHONE_NUMBER + " = ?",
+			new String[] { phoneNumber },
+			null);
+		return(cursor.getCount() > 0);
 	}
 }
 

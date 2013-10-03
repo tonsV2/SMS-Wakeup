@@ -125,48 +125,49 @@ public class BlacklistFragment extends ListFragment implements LoaderManager.Loa
 		}
 	}
 
-		/** Shows contact picker dialog
-		 */
-		public void pickContact() {
-			Intent intent = new Intent(Intent.ACTION_PICK, Contacts.CONTENT_URI);
-			intent.setType(Phone.CONTENT_TYPE); // Show user only contacts w/ phone numbers
-			startActivityForResult(intent, PICK_CONTACT_REQUEST);
-		}
+	/** Shows contact picker dialog
+	 */
+	public void pickContact() {
+		Intent intent = new Intent(Intent.ACTION_PICK, Contacts.CONTENT_URI);
+		intent.setType(Phone.CONTENT_TYPE); // Show user only contacts w/ phone numbers
+		startActivityForResult(intent, PICK_CONTACT_REQUEST);
+	}
 
-		@Override
-		public void onActivityResult( int requestCode, int resultCode, Intent intent ) {
-				super.onActivityResult( requestCode, resultCode, intent );
-				if(resultCode == Activity.RESULT_OK) {
-						if(requestCode == PICK_CONTACT_REQUEST) {
-								handleContact(intent);
-						}
-				}
+	@Override
+	public void onActivityResult( int requestCode, int resultCode, Intent intent ) {
+		super.onActivityResult( requestCode, resultCode, intent );
+		if(resultCode == Activity.RESULT_OK) {
+			if(requestCode == PICK_CONTACT_REQUEST) {
+				handleContact(intent);
+			}
 		}
+	}
 
-		private void handleContact(Intent intent)
-		{
-				final String phoneNumber = getPhoneNumber(intent.getData());
+	private void handleContact(Intent intent)
+	{
+		final String phoneNumber = getPhoneNumber(intent.getData());
 		Blacklist blacklist = new Blacklist();
-		blacklist.phoneNumber = phoneNumber;
+		// trim whitespace
+		blacklist.phoneNumber = phoneNumber.replaceAll("\\s+","");
 		// TODO: use provider
 		DatabaseHandler.getInstance(getActivity()).putBlacklist(blacklist);
 	}
 
-		private String getPhoneNumber(Uri contact)
+	private String getPhoneNumber(Uri contact)
+	{
+		String[] projection = {Phone.NUMBER};
+		Cursor cursor = getActivity().getContentResolver().query(contact, projection, null, null, null);
+		cursor.moveToFirst();
+		// Retrieve the phone number from the NUMBER column
+		int column = cursor.getColumnIndex(Phone.NUMBER);
+		String phoneNumber = null;
+		if(column != -1)
 		{
-				String[] projection = {Phone.NUMBER};
-				Cursor cursor = getActivity().getContentResolver().query(contact, projection, null, null, null);
-				cursor.moveToFirst();
-				// Retrieve the phone number from the NUMBER column
-				int column = cursor.getColumnIndex(Phone.NUMBER);
-				String phoneNumber = null;
-				if(column != -1)
-				{
-						phoneNumber = cursor.getString(column);
-				}
-				cursor.close();
-				return phoneNumber;
+				phoneNumber = cursor.getString(column);
 		}
+		cursor.close();
+		return phoneNumber;
+	}
 
 /* Get name of contact by phone number
  * http://stackoverflow.com/questions/3079365/android-retrieve-contact-name-from-phone-number

@@ -29,6 +29,7 @@ public class Blacklist {
      */
      // TODO: make phoneNumber col unique
      // http://stackoverflow.com/questions/7836561/add-unique-index-sqlite3
+     // create index on phoneNumber for faster querying
     public static final String CREATE_TABLE =
             "CREATE TABLE " + TABLE_NAME + "("
                     + COL_ID + " INTEGER PRIMARY KEY,"
