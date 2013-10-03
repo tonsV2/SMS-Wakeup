@@ -5,7 +5,7 @@
     <string name="action_settings">Settings</string>
     <string name="action_blacklist">Blacklist</string>
     <string name="action_add_contact">Add</string>
-    <string name="info">Whenever you receive an SMS with \'%s\' as content an alarm will go off.\n\nThis alarm, along with various other things, can be customized under settings.\n\nIf you swipe right you will find a list of numbers which are blacklisted.</string>
+    <string name="info">Whenever you receive an SMS with \'%s\' as content an alarm will go off.\n\nNot all your friends might be able to handle the power which comes with this app. Therefor you will be able to blacklist certain numbers by choosing blacklist from the menu.\n\nVarious customizations can be found under settings from the menu.</string>
     <string name="blacklist_activity_title">Blacklist</string>
 
 <!-- Preferences -->
