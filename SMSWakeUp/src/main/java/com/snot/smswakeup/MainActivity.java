@@ -35,6 +35,7 @@ public class MainActivity extends Activity {
 			if(silenceAlarm)
 			{
 				Toast.makeText(this, "Shhh...", Toast.LENGTH_SHORT).show();
+				SoundAlarm.getInstance().stop();
 			}
 		}
 

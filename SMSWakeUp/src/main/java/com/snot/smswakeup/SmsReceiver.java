@@ -90,21 +90,24 @@ public class SmsReceiver extends BroadcastReceiver {
 
 	private void soundAlarm()
 	{
-		boolean customAlarm = prefs.getBoolean("custom_alarm", false);
-		String alarmSound = prefs.getString("alarm_sound", "default ringtone");
-		// TODO: loop alarm
-		Uri alarm = null;
-		if(customAlarm)
-		{
-			alarm = Uri.parse(alarmSound);
-		}
-		else
-		{
-			alarm = Uri.parse("android.resource://" + context.getPackageName() + "/" + R.raw.alarm_sound);
-		}
+		SoundAlarm.getInstance().initalizeMediaPlayer(context);
+		SoundAlarm.getInstance().start();
 
-		Ringtone r = RingtoneManager.getRingtone(context, alarm);
-		r.play();
+//		boolean customAlarm = prefs.getBoolean("custom_alarm", false);
+//		String alarmSound = prefs.getString("alarm_sound", "default ringtone");
+//		// TODO: loop alarm
+//		Uri alarm = null;
+//		if(customAlarm)
+//		{
+//			alarm = Uri.parse(alarmSound);
+//		}
+//		else
+//		{
+//			alarm = Uri.parse("android.resource://" + context.getPackageName() + "/" + R.raw.alarm_sound);
+//		}
+//
+//		Ringtone r = RingtoneManager.getRingtone(context, alarm);
+//		r.play();
 	}
 	
 	private boolean isBlacklisted(String phoneNumber)
