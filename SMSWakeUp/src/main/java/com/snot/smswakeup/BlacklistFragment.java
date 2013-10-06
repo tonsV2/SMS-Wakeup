@@ -31,7 +31,8 @@ import com.snot.smswakeup.database.Provider;
 
 
 // TODO:
-//TODOswipe to dismiss
+//	swipe to dismiss
+//	store contact id and instead of phone number
 
 
 public class BlacklistFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -61,7 +62,7 @@ public class BlacklistFragment extends ListFragment implements LoaderManager.Loa
 					Cursor c = getCursor();
 					c.moveToPosition(position);
 					String phoneNumber = c.getString(c.getColumnIndex(Blacklist.COL_PHONE_NUMBER));
-					String name = getContactName(phoneNumber);
+					String name = ContactUtil.getContactName(getActivity(), phoneNumber);
 		
 					text1.setText(name);
 					text2.setText(phoneNumber);
@@ -138,12 +139,12 @@ public class BlacklistFragment extends ListFragment implements LoaderManager.Loa
 		super.onActivityResult( requestCode, resultCode, intent );
 		if(resultCode == Activity.RESULT_OK) {
 			if(requestCode == PICK_CONTACT_REQUEST) {
-				handleContact(intent);
+				blacklistContact(intent);
 			}
 		}
 	}
 
-	private void handleContact(Intent intent)
+	private void blacklistContact(Intent intent)
 	{
 		final String phoneNumber = getPhoneNumber(intent.getData());
 		Blacklist blacklist = new Blacklist();
@@ -153,6 +154,7 @@ public class BlacklistFragment extends ListFragment implements LoaderManager.Loa
 		DatabaseHandler.getInstance(getActivity()).putBlacklist(blacklist);
 	}
 
+// TODO: move this to ContactUtil
 	private String getPhoneNumber(Uri contact)
 	{
 		String[] projection = {Phone.NUMBER};
@@ -167,26 +169,6 @@ public class BlacklistFragment extends ListFragment implements LoaderManager.Loa
 		}
 		cursor.close();
 		return phoneNumber;
-	}
-
-/* Get name of contact by phone number
- * http://stackoverflow.com/questions/3079365/android-retrieve-contact-name-from-phone-number
- */
-	public String getContactName(String phoneNumber) {
-		ContentResolver cr = getActivity().getContentResolver();
-		Uri uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
-		Cursor cursor = cr.query(uri, new String[]{PhoneLookup.DISPLAY_NAME}, null, null, null);
-		if (cursor == null) {
-			return null;
-		}
-		String contactName = null;
-		if(cursor.moveToFirst()) {
-			contactName = cursor.getString(cursor.getColumnIndex(PhoneLookup.DISPLAY_NAME));
-		}
-		if(cursor != null && !cursor.isClosed()) {
-			cursor.close();
-		}
-		return contactName;
 	}
 }
 
