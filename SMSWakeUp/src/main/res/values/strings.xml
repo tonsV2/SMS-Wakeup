@@ -23,7 +23,7 @@
 
         <string name="prefs_wakeup_cmd_title">Wake up command</string>
         <string name="prefs_wakeup_cmd_summary">Define the text message which triggers the alarm</string>
-        <string name="prefs_wakeup_cmd_default">WAKE UP</string>
+        <string name="prefs_wakeup_cmd_default">WAKEUP</string>
         <string name="prefs_edit_wakeup_cmd_title">Edit</string>
 
         <string name="prefs_case_sensetive_cmp_title">Case sensetive command</string>
