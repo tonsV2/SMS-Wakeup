@@ -43,7 +43,7 @@ public class SmsReceiver extends BroadcastReceiver {
 
 		prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		// TODO: dont hard code strings
-		String wakeUpCommand = prefs.getString("wakeup_cmd", "WAKE UP");
+		String wakeUpCommand = prefs.getString("wakeup_cmd", "WAKEUP");
 		boolean caseSensetiveCompare = prefs.getBoolean("case_sensetive_cmp", false);
 
 		Bundle pudsBundle = intent.getExtras();
