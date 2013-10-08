@@ -105,7 +105,7 @@ public class BlacklistFragment extends ListFragment implements LoaderManager.Loa
 		// pass it to our blacklist object
 		Blacklist blacklist = new Blacklist(c);
 		// TODO
-		Toast.makeText(getActivity(), "id: " + blacklist.id, Toast.LENGTH_SHORT).show();
+		Toast.makeText(getActivity(), ContactUtil.getContactName(getActivity(), blacklist.contactId) + " removed.", Toast.LENGTH_SHORT).show();
 		Uri uri = Uri.withAppendedPath(Provider.URI_BLACKLIST, String.valueOf(blacklist.id));
 		getActivity().getContentResolver().delete(uri, null, null);
 	}
