@@ -13,13 +13,12 @@ public class Blacklist {
     // Naming the id column with an underscore is good to be consistent
     // with other Android things. This is ALWAYS needed
     public static final String COL_ID = "_id";
-    // These fields can be anything you want.
-    public static final String COL_PHONE_NUMBER = "phone_number";
+    public static final String COL_CONTACT_ID = "contact_id";
 
     // For database projection so order is consistent
     public static final String[] FIELDS = {
     	COL_ID,
-	COL_PHONE_NUMBER,
+    	COL_CONTACT_ID
 	};
 
     /*
@@ -33,12 +32,12 @@ public class Blacklist {
     public static final String CREATE_TABLE =
             "CREATE TABLE " + TABLE_NAME + "("
                     + COL_ID + " INTEGER PRIMARY KEY,"
-                    + COL_PHONE_NUMBER + " TEXT NOT NULL"
+                    + COL_CONTACT_ID + " INTEGER NOT NULL"
                     + ")";
 
     // Fields corresponding to database columns
     public long id = -1;
-    public String phoneNumber;
+    public long contactId;
 
     /**
      * No need to do anything, fields are already set to default values above
@@ -52,7 +51,7 @@ public class Blacklist {
     public Blacklist(final Cursor cursor) {
         // Indices expected to match order in FIELDS!
         this.id = cursor.getLong(0);
-        this.phoneNumber = cursor.getString(1);
+        this.contactId = cursor.getLong(1);
     }
 
     /**
@@ -62,7 +61,7 @@ public class Blacklist {
     public ContentValues getContent() {
         final ContentValues values = new ContentValues();
         // Note that ID is NOT included here
-        values.put(COL_PHONE_NUMBER, phoneNumber);
+        values.put(COL_CONTACT_ID, contactId);
 
         return values;
     }

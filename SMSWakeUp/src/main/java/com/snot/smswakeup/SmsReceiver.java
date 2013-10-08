@@ -91,12 +91,23 @@ public class SmsReceiver extends BroadcastReceiver {
 	
 	private boolean isBlacklisted(String phoneNumber)
 	{
-		Cursor cursor = context.getContentResolver().query(Provider.URI_BLACKLIST,
-			new String[] { Blacklist.COL_PHONE_NUMBER },
-			Blacklist.COL_PHONE_NUMBER + " = ?",
-			new String[] { phoneNumber },
-			null);
-		return(cursor.getCount() > 0);
+		// get contact id from phonenumber
+		long[] ids = ContactUtil.getContactIdsByPhoneNumber(context, phoneNumber);
+		// see if contact id is listed in our db
+		// TODO: don't query for each... use sql IN clause
+		for(long id : ids)
+		{
+			Cursor cursor = context.getContentResolver().query(Provider.URI_BLACKLIST,
+				new String[] { Blacklist.COL_CONTACT_ID},
+				Blacklist.COL_CONTACT_ID + " = ?",
+				new String[] { String.valueOf(id) },
+				null);
+			if(cursor.getCount() > 0)
+			{
+				return(true);
+			}
+		}
+		return false;
 	}
 
 	private void BlacklistNotification(String msg) {
