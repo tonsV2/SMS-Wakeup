@@ -99,20 +99,26 @@ public class Provider extends ContentProvider {
 
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
-		// Implement this to handle requests to delete one or more rows.
-		throw new UnsupportedOperationException("Not yet implemented");
-//		int result = -1;
-//		if (uri.toString().startsWith(BLACKLIST_BASE)) {
-//			final long id = Long.parseLong(uri.getLastPathSegment());
-//			result = DatabaseHandler
-//					.getInstance(getContext())
-//					.getWritableDatabase()
-//					.delete(Blacklist.TABLE_NAME,
-//							Blacklist.COL_ID + " IS ?",
-//							new String[] { String.valueOf(id) });
-//			result.setNotificationUri(getContext().getContentResolver(), URI_BLACKLIST);
-//		}
-//		return result;
+		int result = -1;
+		int match = uriMatcher.match(uri);
+		switch(match)
+		{
+			case BLACKLISTS:
+				throw new UnsupportedOperationException("Batch delete not yet implemented");
+			case BLACKLIST:
+				final long id = Long.parseLong(uri.getLastPathSegment());
+				result = DatabaseHandler
+					.getInstance(getContext())
+					.getWritableDatabase()
+					.delete(Blacklist.TABLE_NAME,
+							Blacklist.COL_ID + " IS ?",
+							new String[] { String.valueOf(id) });
+				getContext().getContentResolver().notifyChange(uri, null);
+				break;
+			default:
+				throw new UnsupportedOperationException("Unmatched(" + match + ") URI: " + uri.toString());
+		}
+		return result;
 	}
 }
 

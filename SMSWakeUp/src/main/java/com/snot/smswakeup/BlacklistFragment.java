@@ -32,7 +32,6 @@ import com.snot.smswakeup.database.Provider;
 
 // TODO:
 //	swipe to dismiss
-//	store contact id and instead of phone number
 
 
 public class BlacklistFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -106,7 +105,9 @@ public class BlacklistFragment extends ListFragment implements LoaderManager.Loa
 		// pass it to our blacklist object
 		Blacklist blacklist = new Blacklist(c);
 		// TODO
-//		Toast.makeText(getActivity(), blacklist.phoneNumber, Toast.LENGTH_SHORT).show();
+		Toast.makeText(getActivity(), "id: " + blacklist.id, Toast.LENGTH_SHORT).show();
+		Uri uri = Uri.withAppendedPath(Provider.URI_BLACKLIST, String.valueOf(blacklist.id));
+		getActivity().getContentResolver().delete(uri, null, null);
 	}
 
 	@Override

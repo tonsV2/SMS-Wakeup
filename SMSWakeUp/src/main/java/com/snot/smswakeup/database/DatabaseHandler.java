@@ -88,6 +88,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return success;
     }
 
+    public synchronized int removeBlacklist(final long id) {
+        final SQLiteDatabase db = this.getWritableDatabase();
+        final int result = db.delete(Blacklist.TABLE_NAME,
+                Blacklist.COL_ID + " IS ?",
+                new String[] { Long.toString(id) });
+
+        if (result > 0) {
+            notifyProviderOnBlacklistChange();
+        }
+        return result;
+    }
+
     public synchronized int removeBlacklist(final Blacklist blacklist) {
         final SQLiteDatabase db = this.getWritableDatabase();
         final int result = db.delete(Blacklist.TABLE_NAME,
