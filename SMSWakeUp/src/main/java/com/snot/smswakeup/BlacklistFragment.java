@@ -18,11 +18,11 @@ import android.widget.Toast;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuInflater;
-import android.provider.ContactsContract.Contacts;
-import android.provider.ContactsContract.CommonDataKinds.Phone;
-import android.provider.ContactsContract.PhoneLookup;
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.provider.ContactsContract.Contacts;
+import android.provider.ContactsContract.CommonDataKinds.Phone;
+import android.util.Log;
 
 
 import com.snot.smswakeup.database.DatabaseHandler;
@@ -37,7 +37,8 @@ import com.snot.smswakeup.database.Provider;
 
 public class BlacklistFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-	 private static final int PICK_CONTACT_REQUEST = 1;  // The request code
+	private static final String TAG = "BlacklistFragment";
+	private static final int PICK_CONTACT_REQUEST = 1; // The request code
 
 	public BlacklistFragment() {
 	}
@@ -47,25 +48,29 @@ public class BlacklistFragment extends ListFragment implements LoaderManager.Loa
 		setHasOptionsMenu(true);
 
 		SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(),
-			android.R.layout.simple_list_item_2,
+			android.R.layout.simple_list_item_1,
 			null,
-			new String[] { Blacklist.COL_PHONE_NUMBER, Blacklist.COL_PHONE_NUMBER },
-			new int[] { android.R.id.text1, android.R.id.text2 },
+			new String[] { Blacklist.COL_ID },
+			new int[] { android.R.id.text1 },
 			0) {
 				@Override
 				public View getView(int position, View view, ViewGroup parent)
 				{
 					View row = super.getView(position, view, parent);
 					TextView text1 = (TextView)row.findViewById(android.R.id.text1);
-					TextView text2 = (TextView)row.findViewById(android.R.id.text2);
 		
+					// Get cursor
 					Cursor c = getCursor();
+					// Move to relevant place
 					c.moveToPosition(position);
-					String phoneNumber = c.getString(c.getColumnIndex(Blacklist.COL_PHONE_NUMBER));
-					String name = ContactUtil.getContactName(getActivity(), phoneNumber);
+					// Calculate index
+					int idx = c.getColumnIndex(Blacklist.COL_CONTACT_ID);
+					// Get id
+					long id = c.getLong(idx);
+					// Get name of contact
+					String name = ContactUtil.getContactName(getActivity(), id);
 		
 					text1.setText(name);
-					text2.setText(phoneNumber);
 		
 					return row;
 				}
@@ -100,7 +105,8 @@ public class BlacklistFragment extends ListFragment implements LoaderManager.Loa
 		c.moveToPosition(position);
 		// pass it to our blacklist object
 		Blacklist blacklist = new Blacklist(c);
-		Toast.makeText(getActivity(), blacklist.phoneNumber, Toast.LENGTH_SHORT).show();
+		// TODO
+//		Toast.makeText(getActivity(), blacklist.phoneNumber, Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
@@ -135,8 +141,8 @@ public class BlacklistFragment extends ListFragment implements LoaderManager.Loa
 	}
 
 	@Override
-	public void onActivityResult( int requestCode, int resultCode, Intent intent ) {
-		super.onActivityResult( requestCode, resultCode, intent );
+	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+		super.onActivityResult(requestCode, resultCode, intent);
 		if(resultCode == Activity.RESULT_OK) {
 			if(requestCode == PICK_CONTACT_REQUEST) {
 				blacklistContact(intent);
@@ -146,29 +152,13 @@ public class BlacklistFragment extends ListFragment implements LoaderManager.Loa
 
 	private void blacklistContact(Intent intent)
 	{
-		final String phoneNumber = getPhoneNumber(intent.getData());
+		Uri uri = intent.getData();
+		final long id = ContactUtil.getContactIdByUri(getActivity(), uri);
+		Log.d(TAG, "blacklist.contactId: " + id);
 		Blacklist blacklist = new Blacklist();
-		// trim whitespace
-		blacklist.phoneNumber = phoneNumber.replaceAll("\\s+","");
-		// TODO: use provider
+		blacklist.contactId = id;
+//		// TODO: use provider
 		DatabaseHandler.getInstance(getActivity()).putBlacklist(blacklist);
-	}
-
-// TODO: move this to ContactUtil
-	private String getPhoneNumber(Uri contact)
-	{
-		String[] projection = {Phone.NUMBER};
-		Cursor cursor = getActivity().getContentResolver().query(contact, projection, null, null, null);
-		cursor.moveToFirst();
-		// Retrieve the phone number from the NUMBER column
-		int column = cursor.getColumnIndex(Phone.NUMBER);
-		String phoneNumber = null;
-		if(column != -1)
-		{
-				phoneNumber = cursor.getString(column);
-		}
-		cursor.close();
-		return phoneNumber;
 	}
 }
 
