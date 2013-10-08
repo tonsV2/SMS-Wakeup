@@ -15,6 +15,12 @@ Open Source
 You can find the source code for this app at <https://github.com/snot/>
 
 
+TODO
+====
+* Swipe to dismiss
+* Act as whitelist instead of blacklis
+
+
 Credits
 =======
 * Icon designed by... .

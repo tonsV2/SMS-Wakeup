@@ -24,4 +24,6 @@ android {
 
 dependencies {
 	compile 'com.android.support:appcompat-v7:18.0.0'
+	compile 'de.timroes.android:EnhancedListView:0.1.2@aar'
 }
+
