@@ -16,6 +16,7 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 
 import android.util.Log;
+import android.net.Uri;
 
 
 public class MainActivity extends Activity {
@@ -27,7 +28,7 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
+		
 		Bundle bundle = this.getIntent().getExtras();
 		if(bundle != null)
 		{
@@ -40,7 +41,7 @@ public class MainActivity extends Activity {
 		}
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		String wakeUpCommand = prefs.getString("wakeup_cmd", "WAKE UP");
+		String wakeUpCommand = prefs.getString("wakeup_cmd", "WAKEUP");
 		String info = getString(R.string.info);
 		TextView tv = (TextView)findViewById(R.id.info);
 		tv.setText(String.format(info, wakeUpCommand));
