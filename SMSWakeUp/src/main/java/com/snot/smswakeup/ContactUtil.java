@@ -51,20 +51,11 @@ public class ContactUtil {
 // TODO: perhaps rename to getContactIdByDataUri
 	public static long getContactIdByUri(Context context, Uri uri)
 	{
+		String[] projection = new String[] { Data.CONTACT_ID };
+		Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
 		long id = -1;
-		try
-		{
-			String[] projection = new String[] { Data.CONTACT_ID };
-			Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
-			if(cursor.moveToFirst())
-			{
-				id = cursor.getLong(0);
-			}
-		}
-		// TODO: does it make sense to use finally here?
-		finally
-		{
-			cursor.close();
+		if(cursor.moveToFirst()) {
+			id = cursor.getLong(0);
 		}
 		return id;
 	}
