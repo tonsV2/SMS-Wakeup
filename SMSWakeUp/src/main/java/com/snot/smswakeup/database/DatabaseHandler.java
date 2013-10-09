@@ -34,6 +34,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(Blacklist.CREATE_TABLE);
+        db.execSQL(Blacklist.CREATE_INDEX);
     }
 
     @Override
@@ -74,8 +75,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             success = true;
         } else {
             // Update failed or wasn't possible, insert instead
-            final long id = db.insert(Blacklist.TABLE_NAME, null,
-                    blacklist.getContent());
+            //final long id = db.insert(Blacklist.TABLE_NAME, null, blacklist.getContent());
+            final long id = db.insertOrThrow(Blacklist.TABLE_NAME, null, blacklist.getContent());
 
             if (id > -1) {
                 blacklist.id = id;
@@ -101,15 +102,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     public synchronized int removeBlacklist(final Blacklist blacklist) {
-        final SQLiteDatabase db = this.getWritableDatabase();
-        final int result = db.delete(Blacklist.TABLE_NAME,
-                Blacklist.COL_ID + " IS ?",
-                new String[] { Long.toString(blacklist.id) });
-
-        if (result > 0) {
-            notifyProviderOnBlacklistChange();
-        }
-        return result;
+        return removeBlacklist(blacklist.id);
+//        final SQLiteDatabase db = this.getWritableDatabase();
+//        final int result = db.delete(Blacklist.TABLE_NAME,
+//                Blacklist.COL_ID + " IS ?",
+//                new String[] { Long.toString(blacklist.id) });
+//
+//        if (result > 0) {
+//            notifyProviderOnBlacklistChange();
+//        }
+//        return result;
     }
 
     private void notifyProviderOnBlacklistChange() {

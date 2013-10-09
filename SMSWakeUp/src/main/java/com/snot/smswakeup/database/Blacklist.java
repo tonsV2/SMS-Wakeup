@@ -34,6 +34,8 @@ public class Blacklist {
                     + COL_ID + " INTEGER PRIMARY KEY,"
                     + COL_CONTACT_ID + " INTEGER NOT NULL"
                     + ")";
+//    public static final String CREATE_INDEX = "CREATE UNIQUE INDEX IF NOT EXISTS UniqueIndex" + COL_CONTACT_ID + " ON " + TABLE_NAME + "(" + COL_CONTACT_ID + ");";
+    public static final String CREATE_INDEX = "CREATE UNIQUE INDEX IF NOT EXISTS UniqueIndexContactID ON " + TABLE_NAME + "(" + COL_CONTACT_ID + ")";
 
     // Fields corresponding to database columns
     public long id = -1;
