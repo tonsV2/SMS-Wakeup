@@ -9,6 +9,7 @@
     <string name="blacklist_activity_title">Blacklist</string>
     <string name="preferences_activity_title">Settings</string>
     <string name="silence_toast">Shhh...</string>
+    <string name="contact_already_balcklisted">Contact already added</string>
 
 <!-- Preferences -->
         <string name="prefs_title">Preferences</string>

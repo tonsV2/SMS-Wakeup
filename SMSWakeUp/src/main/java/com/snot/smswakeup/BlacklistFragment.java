@@ -23,6 +23,8 @@ import android.content.ContentResolver;
 import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.util.Log;
+import android.database.sqlite.SQLiteConstraintException;
+
 
 
 import com.snot.smswakeup.database.DatabaseHandler;
@@ -159,7 +161,14 @@ public class BlacklistFragment extends ListFragment implements LoaderManager.Loa
 		Blacklist blacklist = new Blacklist();
 		blacklist.contactId = id;
 //		// TODO: use provider
-		DatabaseHandler.getInstance(getActivity()).putBlacklist(blacklist);
+		try
+		{
+			DatabaseHandler.getInstance(getActivity()).putBlacklist(blacklist);
+		}
+		catch(SQLiteConstraintException e)
+		{
+			Toast.makeText(getActivity(), getActivity().getString(R.string.contact_already_balcklisted), Toast.LENGTH_SHORT).show();
+		}
 	}
 }
 
