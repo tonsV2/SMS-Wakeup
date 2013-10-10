@@ -20,10 +20,24 @@ android {
         minSdkVersion 7
         targetSdkVersion 16
     }
+
+    signingConfigs {
+        release {
+            storeFile file("/home/snot/.android/release.keystore")
+            storePassword "skummet"
+            keyAlias "smswakeup"
+            keyPassword "skummet"
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+        }
+    }
 }
 
 dependencies {
 	compile 'com.android.support:appcompat-v7:18.0.0'
-	compile 'de.timroes.android:EnhancedListView:0.1.2@aar'
 }
 
