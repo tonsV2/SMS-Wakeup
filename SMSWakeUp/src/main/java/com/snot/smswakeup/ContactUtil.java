@@ -35,12 +35,13 @@ public class ContactUtil {
 		Uri uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
 		String[] projection = new String[] { PhoneLookup._ID };
 		Cursor cursor = contentResolver.query(uri, projection, null, null, null);
-		if (cursor == null) {
+		if (cursor == null || !cursor.moveToFirst()) {
 			return null;
 		}
 
 		int count = cursor.getCount();
-		long[] ids = new long[count - 1];
+		// TODO: is getCount zero indexed... ???
+		long[] ids = new long[count];
 		for(int i = 0; i < count; i++, cursor.moveToNext())
 		{
 			ids[i] = cursor.getLong(i);
