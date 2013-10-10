@@ -12,7 +12,7 @@ Download
 
 Open Source
 ===========
-You can find the source code for this app at <https://github.com/snot/>
+You can find the source code for this app at <https://github.com/snot/SMS-Wakeup>
 
 
 TODO
@@ -23,7 +23,7 @@ TODO
 
 Credits
 =======
-* Icon designed by... .
+* Icon designed by tweet-tweet-pew-pew from reddit.
 
 
 Contact
