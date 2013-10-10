@@ -2,7 +2,7 @@ SMS Wakeup
 ==========
 This app is designed for the heavy sleeper. Or for those who wish to have an emergency way to allow friends and family to get through to them regardless of the phone being on silence.
 
-It works by intercepting incomming text messages and seeing if they contains a special string, the default being "Wakeup". If a match is detected the alarm will go off.
+It works by intercepting incoming text messages and seeing if they contains a special string, the default being "Wakeup". If a match is detected the alarm will go off.
 
 
 Download
@@ -17,8 +17,8 @@ You can find the source code for this app at <https://github.com/snot/>
 
 TODO
 ====
-* Swipe to dismiss
-* Act as whitelist instead of blacklis
+* Swipe to dismiss from blacklist
+* Act as whitelist instead of blacklist
 
 
 Credits
