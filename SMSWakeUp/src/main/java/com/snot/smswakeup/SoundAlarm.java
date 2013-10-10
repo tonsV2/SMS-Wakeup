@@ -46,5 +46,9 @@ public class SoundAlarm {
 	public void stop(){
 		mediaPlayer.stop();
 	}
+
+	public boolean isPlaying(){
+		return mediaPlayer != null && mediaPlayer.isPlaying();
+	}
 }
 
