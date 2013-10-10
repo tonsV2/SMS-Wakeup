@@ -29,15 +29,11 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		Bundle bundle = this.getIntent().getExtras();
-		if(bundle != null)
+
+		if(SoundAlarm.getInstance().isPlaying())
 		{
-			boolean silenceAlarm = bundle.getBoolean(INTENT_SILENCE);
-			if(silenceAlarm)
-			{
-				Toast.makeText(this, getString(R.string.silence_toast), Toast.LENGTH_SHORT).show();
-				SoundAlarm.getInstance().stop();
-			}
+			SoundAlarm.getInstance().stop();
+			Toast.makeText(this, getString(R.string.silence_toast), Toast.LENGTH_SHORT).show();
 		}
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
