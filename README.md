@@ -19,6 +19,7 @@ TODO
 ====
 * Swipe to dismiss from blacklist
 * Act as whitelist instead of blacklist
+* Multiple trigger messages
 
 
 Credits
