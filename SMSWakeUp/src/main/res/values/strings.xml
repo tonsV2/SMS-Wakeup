@@ -1,48 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">SMS Wake Up!</string>
-    <string name="action_settings">Settings</string>
-    <string name="action_blacklist">Blacklist</string>
-    <string name="action_add_contact">Add</string>
-    <string name="info">Whenever you receive a text message that says \'%s\' an alarm will go off.\n\nNot all your contacts might be able to handle the power that comes with this app. Therefore, you can blacklist certain phone numbers via the Blacklist option in the menu.
-</string>
-    <string name="blacklist_activity_title">Blacklist</string>
-    <string name="preferences_activity_title">Settings</string>
-    <string name="silence_toast">Shhh...</string>
-    <string name="contact_already_balcklisted">Contact already added</string>
+	<string name="app_name">SMS Wake Up!</string>
+	<string name="action_settings">Settings</string>
+	<string name="action_blacklist">Blacklist</string>
+	<string name="action_add_contact">Add</string>
+	<string name="info">Whenever you receive a text message that says \'%s\' an alarm will go off.\n\nNot all your contacts might be able to handle the power that comes with this app. Therefore, you can blacklist certain phone numbers via the Blacklist option in the menu.</string>
+	<string name="blacklist_activity_title">Blacklist</string>
+	<string name="preferences_activity_title">Settings</string>
+	<string name="silence_toast">Shhh...</string>
+	<string name="contact_already_balcklisted">Contact already added!</string>
 
 <!-- Preferences -->
-        <string name="prefs_title">Preferences</string>
+	<string name="prefs_wakeup_cmd_title">Wake up command</string>
+	<string name="prefs_wakeup_cmd_summary">Define the text message which triggers the alarm</string>
+	<string name="prefs_wakeup_cmd_default">WAKEUP</string>
+	<string name="prefs_edit_wakeup_cmd_title">Edit</string>
 
-        <string name="prefs_custom_alarm_title">Custom alarm</string>
-        <string name="prefs_custom_alarm_summary">Choose alarm sound from ringtones</string>
+	<string name="prefs_case_sensetive_cmp_title">Case sensetive command</string>
+	<string name="prefs_case_sensetive_cmp_summary">Wakeup command is matched case sensetive</string>
 
-        <string name="prefs_alarm_sound">Alarm sound</string>
-
-        <string name="prefs_keep_playing_title">Keep playing</string>
-        <string name="prefs_keep_playing_summary">Keep playing until alarm is disabled</string>
-
-        <string name="prefs_wakeup_cmd_title">Wake up command</string>
-        <string name="prefs_wakeup_cmd_summary">Define the text message which triggers the alarm</string>
-        <string name="prefs_wakeup_cmd_default">WAKEUP</string>
-        <string name="prefs_edit_wakeup_cmd_title">Edit</string>
-
-        <string name="prefs_case_sensetive_cmp_title">Case sensetive command</string>
-        <string name="prefs_case_sensetive_cmp_summary">Wakeup command is matched case sensetive</string>
-
-        <string name="prefs_vibrate_title">Vibrate</string>
-        <string name="prefs_vibrate_summary">Vibrate on alarm</string>
-
-        <string name="prefs_vibrate_time_title">Vibrate time</string>
-        <string name="prefs_vibrate_time_summary">Time to vibrate in milliseconds</string>
-
-
-        <string name="prefs_flash_title">Flash</string>
-        <string name="prefs_flash_summary">Use flashlight on alarm</string>
-
-        <string name="prefs_flash_screen_title">Flash screen</string>
-        <string name="prefs_flash_screen_summary">Flash screen on alarm</string>
+	<string name="prefs_keep_playing_title">Keep playing</string>
+	<string name="prefs_keep_playing_summary">Keep playing until alarm is disabled</string>
 
 	<string name="prefs_maximize_volume_title">Maximize volume</string>
 	<string name="prefs_maximize_volume_summary">Override silent mode.</string>
