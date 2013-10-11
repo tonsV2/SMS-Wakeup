@@ -100,15 +100,21 @@ public class BlacklistFragment extends ListFragment implements LoaderManager.Loa
 	@Override
 	public void onListItemClick(ListView list, View view, int position, long id) {
 		super.onListItemClick(list, view, position, id);
-	// get cursor
+		// get cursor
 		Cursor c = ((SimpleCursorAdapter)getListAdapter()).getCursor();
 		// move to the desired position
 		c.moveToPosition(position);
 		// pass it to our blacklist object
 		Blacklist blacklist = new Blacklist(c);
-		// TODO
-		Toast.makeText(getActivity(), ContactUtil.getContactName(getActivity(), blacklist.contactId) + " removed.", Toast.LENGTH_SHORT).show();
+		// Get name of contact
+		String contactName = ContactUtil.getContactName(getActivity(), blacklist.contactId);
+		// Format toast message
+		String msg = String.format(getActivity().getString(R.string.contact_removed_toast), contactName);
+		// Show toast
+		Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+		// Append contact id to blacklist uri
 		Uri uri = Uri.withAppendedPath(Provider.URI_BLACKLIST, String.valueOf(blacklist.id));
+		// Use provider to remove contact from blacklist
 		getActivity().getContentResolver().delete(uri, null, null);
 	}
 

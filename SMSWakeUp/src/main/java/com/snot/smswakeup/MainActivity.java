@@ -46,21 +46,19 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		prefs.registerOnSharedPreferenceChangeListener(this);
 
-		wakeUpCommand = prefs.getString("wakeup_cmd", "WAKEUP");
+		wakeUpCommand = prefs.getString(Preferences.WAKEUP_CMD, Preferences.WAKEUP_CMD_DEFAULT);
 		info = getString(R.string.info);
 		tv = (TextView)findViewById(R.id.info);
 		tv.setText(String.format(info, wakeUpCommand));
 	}
 
-
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-		if(key.equals("wakeup_cmd"))
+		if(key.equals(Preferences.WAKEUP_CMD))
 		{
-			wakeUpCommand = prefs.getString("wakeup_cmd", "WAKEUP");
+			wakeUpCommand = prefs.getString(Preferences.WAKEUP_CMD, Preferences.WAKEUP_CMD_DEFAULT);
 			tv.setText(String.format(info, wakeUpCommand));
 		}
 	}
-
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -86,6 +84,5 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
 			return super.onOptionsItemSelected(item);
 		}
 	}
-
 }
 

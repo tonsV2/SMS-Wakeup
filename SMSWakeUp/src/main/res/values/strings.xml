@@ -10,6 +10,7 @@
 	<string name="preferences_activity_title">Settings</string>
 	<string name="silence_toast">Shhh...</string>
 	<string name="contact_already_balcklisted">Contact already added!</string>
+	<string name="contact_removed_toast">%s removed.</string>
 
 <!-- Preferences -->
 	<string name="prefs_wakeup_cmd_title">Wake up command</string>
@@ -25,5 +26,9 @@
 
 	<string name="prefs_maximize_volume_title">Maximize volume</string>
 	<string name="prefs_maximize_volume_summary">Override silent mode.</string>
+
+<!-- Notifications -->
+	<string name="notification_msg_from">Wake up msg from </string>
+	<string name="notification_msg_from_blacklisted">Message from blacklisted number: </string>
 
 </resources>
