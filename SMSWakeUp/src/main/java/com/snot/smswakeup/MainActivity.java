@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.preference.PreferenceManager;
 
 import android.media.Ringtone;
@@ -19,10 +20,16 @@ import android.util.Log;
 import android.net.Uri;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements OnSharedPreferenceChangeListener {
 
 	public static final String TAG = "MainActivity";
 	public static final String INTENT_SILENCE = "1";
+
+	private SharedPreferences prefs;
+	private String wakeUpCommand;
+	private String info;
+	private TextView tv;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +43,22 @@ public class MainActivity extends Activity {
 			Toast.makeText(this, getString(R.string.silence_toast), Toast.LENGTH_SHORT).show();
 		}
 
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		String wakeUpCommand = prefs.getString("wakeup_cmd", "WAKEUP");
-		String info = getString(R.string.info);
-		TextView tv = (TextView)findViewById(R.id.info);
+		prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		prefs.registerOnSharedPreferenceChangeListener(this);
+
+		wakeUpCommand = prefs.getString("wakeup_cmd", "WAKEUP");
+		info = getString(R.string.info);
+		tv = (TextView)findViewById(R.id.info);
 		tv.setText(String.format(info, wakeUpCommand));
+	}
+
+
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+		if(key.equals("wakeup_cmd"))
+		{
+			wakeUpCommand = prefs.getString("wakeup_cmd", "WAKEUP");
+			tv.setText(String.format(info, wakeUpCommand));
+		}
 	}
 
 
