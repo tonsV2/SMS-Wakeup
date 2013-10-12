@@ -37,7 +37,7 @@ public class MainActivity extends Activity {
 		}
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		String wakeUpCommand = prefs.getString("wakeup_cmd", "WAKEUP");
+		String wakeUpCommand = prefs.getString("wakeup_cmd", "Wakeup");
 		String info = getString(R.string.info);
 		TextView tv = (TextView)findViewById(R.id.info);
 		tv.setText(String.format(info, wakeUpCommand));
