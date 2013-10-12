@@ -42,9 +42,8 @@ public class SmsReceiver extends BroadcastReceiver {
 		this.context = context;
 
 		prefs = PreferenceManager.getDefaultSharedPreferences(context);
-		// TODO: dont hard code strings
-		String wakeUpCommand = prefs.getString("wakeup_cmd", "Wakeup");
-		boolean caseSensitiveCompare = prefs.getBoolean("case_sensitive_cmp", false);
+		String wakeUpCommand = prefs.getString(Preferences.WAKEUP_CMD, Preferences.WAKEUP_CMD_DEFAULT);
+		boolean caseSensitiveCompare = prefs.getBoolean(Preferences.CASE_SENSITIVE_CMP, false);
 
 		Bundle pudsBundle = intent.getExtras();
 		Object[] pdus = (Object[]) pudsBundle.get("pdus");
@@ -65,19 +64,20 @@ public class SmsReceiver extends BroadcastReceiver {
 
 		if(message.equals(wakeUpCommand) && !isBlacklisted)
 		{
-			AlarmNotification("Wake up msg from " + phoneNumber);
+			// TODO: display DISPLAY_NAME instead of phone number
+			AlarmNotification(context.getString(R.string.notification_msg_from) + phoneNumber);
 			soundAlarm();
 		}
 		if(isBlacklisted)
 		{
-			BlacklistNotification("Message from blacklisted number: " + phoneNumber);
+			BlacklistNotification(context.getString(R.string.notification_msg_from_blacklisted) + phoneNumber);
 		}
 	}
 
 
 	private void soundAlarm()
 	{
-		boolean maximizeVolume = prefs.getBoolean("maximize_volume", true);
+		boolean maximizeVolume = prefs.getBoolean(Preferences.MAXIMIZE_VOLUME, Preferences.MAXIMIZE_VOLUME_DEFAULT);
 		// Maximize volume
 		if(maximizeVolume)
 		{

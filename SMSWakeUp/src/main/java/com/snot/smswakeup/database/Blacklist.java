@@ -26,15 +26,13 @@ public class Blacklist {
      * Note that the last row does NOT end in a comma like the others.
      * This is a common source of error.
      */
-     // TODO: make phoneNumber col unique
-     // http://stackoverflow.com/questions/7836561/add-unique-index-sqlite3
-     // create index on phoneNumber for faster querying
     public static final String CREATE_TABLE =
             "CREATE TABLE " + TABLE_NAME + "("
                     + COL_ID + " INTEGER PRIMARY KEY,"
                     + COL_CONTACT_ID + " INTEGER NOT NULL"
                     + ")";
-//    public static final String CREATE_INDEX = "CREATE UNIQUE INDEX IF NOT EXISTS UniqueIndex" + COL_CONTACT_ID + " ON " + TABLE_NAME + "(" + COL_CONTACT_ID + ");";
+// TODO
+// This should be part of the create table string so we don't forget to call it oncreate
     public static final String CREATE_INDEX = "CREATE UNIQUE INDEX IF NOT EXISTS UniqueIndexContactID ON " + TABLE_NAME + "(" + COL_CONTACT_ID + ")";
 
     // Fields corresponding to database columns

@@ -35,7 +35,7 @@ public class SoundAlarm {
 	public void initalizeMediaPlayer(Context context, int musicId){
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		mediaPlayer = MediaPlayer.create(context, musicId);
-		boolean loop = prefs.getBoolean("keep_playing", true);
+		boolean loop = prefs.getBoolean(Preferences.KEEP_PLAYING, true);
 		mediaPlayer.setLooping(loop);
 	}
 	
