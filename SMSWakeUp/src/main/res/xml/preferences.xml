@@ -7,10 +7,10 @@
 		android:dialogTitle="@string/prefs_edit_wakeup_cmd_title"
 		android:defaultValue="@string/prefs_wakeup_cmd_default" />
 	<CheckBoxPreference
-		android:title="@string/prefs_case_sensetive_cmp_title"
+		android:title="@string/prefs_case_sensitive_cmp_title"
 		android:defaultValue="False"
-		android:key="case_sensetive_cmp"
-		android:summary="Wakeup command is matched case sensetive" />
+		android:key="case_sensitive_cmp"
+		android:summary="@string/prefs_case_sensitive_cmp_summary" />
 	<CheckBoxPreference
 		android:title="@string/prefs_keep_playing_title"
 		android:defaultValue="True"

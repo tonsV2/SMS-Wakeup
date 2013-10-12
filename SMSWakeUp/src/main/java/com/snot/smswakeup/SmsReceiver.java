@@ -43,7 +43,7 @@ public class SmsReceiver extends BroadcastReceiver {
 
 		prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		String wakeUpCommand = prefs.getString(Preferences.WAKEUP_CMD, Preferences.WAKEUP_CMD_DEFAULT);
-		boolean caseSensetiveCompare = prefs.getBoolean(Preferences.CASE_SENSETIVE_CMP, false);
+		boolean caseSensitiveCompare = prefs.getBoolean(Preferences.CASE_SENSITIVE_CMP, false);
 
 		Bundle pudsBundle = intent.getExtras();
 		Object[] pdus = (Object[]) pudsBundle.get("pdus");
@@ -52,7 +52,7 @@ public class SmsReceiver extends BroadcastReceiver {
 		String phoneNumber = sms.getOriginatingAddress();
 		String message = sms.getMessageBody().trim();
 
-		if(!caseSensetiveCompare)
+		if(!caseSensitiveCompare)
 		{
 			wakeUpCommand = wakeUpCommand.toLowerCase();
 			message = message.toLowerCase();
