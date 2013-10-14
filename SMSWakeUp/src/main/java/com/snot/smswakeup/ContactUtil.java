@@ -40,11 +40,12 @@ public class ContactUtil {
 		}
 
 		int count = cursor.getCount();
+		Log.d(TAG, "cursor.getCount: " + count);
 		// TODO: is getCount zero indexed... ???
 		long[] ids = new long[count];
 		for(int i = 0; i < count; i++, cursor.moveToNext())
 		{
-			ids[i] = cursor.getLong(i);
+			ids[i] = cursor.getLong(0);
 		}
 		return ids;
 	}
