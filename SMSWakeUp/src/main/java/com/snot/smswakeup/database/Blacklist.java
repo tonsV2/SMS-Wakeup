@@ -31,6 +31,7 @@ public class Blacklist {
                     + COL_ID + " INTEGER PRIMARY KEY,"
                     + COL_CONTACT_ID + " INTEGER NOT NULL"
                     + ")";
+// TODO!!! use unique function/clause something instead
 // TODO
 // This should be part of the create table string so we don't forget to call it oncreate
     public static final String CREATE_INDEX = "CREATE UNIQUE INDEX IF NOT EXISTS UniqueIndexContactID ON " + TABLE_NAME + "(" + COL_CONTACT_ID + ")";
