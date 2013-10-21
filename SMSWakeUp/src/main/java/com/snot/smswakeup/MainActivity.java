@@ -47,16 +47,17 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
 		prefs.registerOnSharedPreferenceChangeListener(this);
 
 		wakeUpCommand = prefs.getString(Preferences.WAKEUP_CMD, Preferences.WAKEUP_CMD_DEFAULT);
-		info = getString(R.string.info);
+		info = getString(R.string.info, wakeUpCommand);
 		tv = (TextView)findViewById(R.id.info);
-		tv.setText(String.format(info, wakeUpCommand));
+		tv.setText(info);
 	}
 
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		if(key.equals(Preferences.WAKEUP_CMD))
 		{
 			wakeUpCommand = prefs.getString(Preferences.WAKEUP_CMD, Preferences.WAKEUP_CMD_DEFAULT);
-			tv.setText(String.format(info, wakeUpCommand));
+			info = getString(R.string.info, wakeUpCommand);
+			tv.setText(info);
 		}
 	}
 
