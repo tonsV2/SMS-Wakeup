@@ -1,17 +1,13 @@
 package com.snot.smswakeup;
 
-import android.content.Context;
-import android.util.Log;
 import android.content.ContentResolver;
-import android.net.Uri;
-import android.provider.ContactsContract.PhoneLookup;
+import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.Data;
-import android.provider.ContactsContract.CommonDataKinds.Phone;
-import android.content.ContentUris;
-import android.widget.Toast;
-import android.provider.ContactsContract.Contacts;
+import android.provider.ContactsContract.PhoneLookup;
+import android.util.Log;
 
 /**
  * @author snot

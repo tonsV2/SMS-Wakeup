@@ -6,9 +6,7 @@ import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
-import android.net.Uri.Builder;
 import android.util.Log;
-import android.widget.Toast;
 
 /**
  * Created by snot on 6/3/13.

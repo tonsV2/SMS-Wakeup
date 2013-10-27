@@ -1,23 +1,15 @@
 package com.snot.smswakeup;
 
-import android.os.Bundle;
 import android.app.Activity;
-import android.view.Menu;
-
-import android.view.MenuItem;
 import android.content.Intent;
-
-import android.widget.TextView;
-import android.widget.Toast;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
-
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-
-import android.util.Log;
-import android.net.Uri;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class MainActivity extends Activity implements OnSharedPreferenceChangeListener {

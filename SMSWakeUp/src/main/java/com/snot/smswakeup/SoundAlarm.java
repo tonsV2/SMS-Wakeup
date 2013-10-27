@@ -1,11 +1,10 @@
 package com.snot.smswakeup;
 
 import android.content.Context;
-import android.media.MediaPlayer;
-import android.util.Log;
-
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 /**
  * @author snot
