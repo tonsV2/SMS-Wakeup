@@ -1,34 +1,30 @@
 package com.snot.smswakeup;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract.CommonDataKinds.Phone;
+import android.provider.ContactsContract.Contacts;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MenuInflater;
-import android.app.Activity;
-import android.content.ContentResolver;
-import android.provider.ContactsContract.Contacts;
-import android.provider.ContactsContract.CommonDataKinds.Phone;
-import android.util.Log;
-import android.database.sqlite.SQLiteConstraintException;
 
-
-
-import com.snot.smswakeup.database.DatabaseHandler;
 import com.snot.smswakeup.database.Blacklist;
+import com.snot.smswakeup.database.DatabaseHandler;
 import com.snot.smswakeup.database.Provider;
 
 
@@ -108,8 +104,8 @@ public class BlacklistFragment extends ListFragment implements LoaderManager.Loa
 		Blacklist blacklist = new Blacklist(c);
 		// Get name of contact
 		String contactName = ContactUtil.getContactName(getActivity(), blacklist.contactId);
-		// Format toast message
-		String msg = String.format(getActivity().getString(R.string.contact_removed_toast), contactName);
+        // Format toast message
+        String msg = getString(R.string.contact_removed_toast, contactName);
 		// Show toast
 		Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
 		// Append contact id to blacklist uri

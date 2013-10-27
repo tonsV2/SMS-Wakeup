@@ -19,4 +19,3 @@ public class BlacklistActivity extends FragmentActivity {
 		}
 	}
 }
-
