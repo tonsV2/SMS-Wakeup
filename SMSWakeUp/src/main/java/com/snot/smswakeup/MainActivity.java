@@ -77,5 +77,10 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
 			return super.onOptionsItemSelected(item);
 		}
 	}
-}
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        prefs.unregisterOnSharedPreferenceChangeListener(this);
+    }
+}
