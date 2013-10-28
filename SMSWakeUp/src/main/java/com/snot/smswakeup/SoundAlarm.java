@@ -14,40 +14,40 @@ import android.util.Log;
 // Credits: http://stackoverflow.com/questions/14728945/play-stop-sound-from-another-activity
 
 public class SoundAlarm {
-	private static final String TAG = "SoundAlarm";
-	private static SoundAlarm refrence = null;
-	private MediaPlayer mediaPlayer;
+    private static final String TAG = "SoundAlarm";
+    private static SoundAlarm reference = null;
+    private MediaPlayer mediaPlayer;
 
-	public static SoundAlarm getInstance() {
-		if(refrence == null)
-		{
-			Log.d(TAG, "refrence == null");
-			refrence = new SoundAlarm();
-		}
-		return refrence;
-	}
+    public static SoundAlarm getInstance() {
+        if(reference == null)
+        {
+            Log.d(TAG, "refrence == null");
+            reference = new SoundAlarm();
+        }
+        return reference;
+    }
 
-	public void initalizeMediaPlayer(Context context){
-		initalizeMediaPlayer(context, R.raw.alarm_sound);
-	}
+    public void initializeMediaPlayer(Context context){
+        initializeMediaPlayer(context, R.raw.alarm_sound);
+    }
 
-	public void initalizeMediaPlayer(Context context, int musicId){
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-		mediaPlayer = MediaPlayer.create(context, musicId);
-		boolean loop = prefs.getBoolean(Preferences.KEEP_PLAYING, true);
-		mediaPlayer.setLooping(loop);
-	}
-	
-	public void start(){
-		mediaPlayer.start();
-	}
-	
-	public void stop(){
-		mediaPlayer.stop();
-	}
+    public void initializeMediaPlayer(Context context, int musicId){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        mediaPlayer = MediaPlayer.create(context, musicId);
+        boolean loop = prefs.getBoolean(Preferences.KEEP_PLAYING, true);
+        mediaPlayer.setLooping(loop);
+    }
 
-	public boolean isPlaying(){
-		return mediaPlayer != null && mediaPlayer.isPlaying();
-	}
+    public void start(){
+        mediaPlayer.start();
+    }
+
+    public void stop(){
+        mediaPlayer.stop();
+    }
+
+    public boolean isPlaying(){
+        return mediaPlayer != null && mediaPlayer.isPlaying();
+    }
 }
 

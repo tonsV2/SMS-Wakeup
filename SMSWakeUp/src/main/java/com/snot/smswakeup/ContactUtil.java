@@ -16,7 +16,7 @@ import android.util.Log;
 
 
 public class ContactUtil {
-	private static final String TAG = "ContactUtil";
+	private static final String TAG = "SmsWakeup.ContactUtil";
 
 /**
  * Returns an array of CONTACT_ID's associated with phoneNumber
@@ -71,7 +71,7 @@ public class ContactUtil {
 			//contactName = cursor.getString(cursor.getColumnIndex(Contacts.DISPLAY_NAME));
 			contactName = cursor.getString(0);
 		}
-		if(cursor != null && !cursor.isClosed()) {
+		if(!cursor.isClosed()) {
 			cursor.close();
 		}
 		return contactName;

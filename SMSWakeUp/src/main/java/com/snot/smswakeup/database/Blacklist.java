@@ -17,9 +17,9 @@ public class Blacklist {
 
     // For database projection so order is consistent
     public static final String[] FIELDS = {
-    	COL_ID,
-    	COL_CONTACT_ID
-	};
+            COL_ID,
+            COL_CONTACT_ID
+    };
 
     /*
      * The SQL code that creates a Table for storing Exercises in.
@@ -31,7 +31,7 @@ public class Blacklist {
                     + COL_ID + " INTEGER PRIMARY KEY,"
                     + COL_CONTACT_ID + " INTEGER NOT NULL"
                     + ")";
-// TODO!!! use unique function/clause something instead
+    // TODO!!! use unique function/clause something instead
 // TODO
 // This should be part of the create table string so we don't forget to call it oncreate
     public static final String CREATE_INDEX = "CREATE UNIQUE INDEX IF NOT EXISTS UniqueIndexContactID ON " + TABLE_NAME + "(" + COL_CONTACT_ID + ")";

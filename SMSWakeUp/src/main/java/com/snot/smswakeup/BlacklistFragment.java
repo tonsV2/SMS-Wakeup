@@ -34,143 +34,143 @@ import com.snot.smswakeup.database.Provider;
 
 public class BlacklistFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-	private static final String TAG = "BlacklistFragment";
-	private static final int PICK_CONTACT_REQUEST = 1; // The request code
+    private static final String TAG = "BlacklistFragment";
+    private static final int PICK_CONTACT_REQUEST = 1; // The request code
 
-	public BlacklistFragment() {
-	}
+    public BlacklistFragment() {
+    }
 
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setHasOptionsMenu(true);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
 
-		SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(),
-			android.R.layout.simple_list_item_1,
-			null,
-			new String[] { Blacklist.COL_ID },
-			new int[] { android.R.id.text1 },
-			0) {
-				@Override
-				public View getView(int position, View view, ViewGroup parent)
-				{
-					View row = super.getView(position, view, parent);
-					TextView text1 = (TextView)row.findViewById(android.R.id.text1);
-		
-					// Get cursor
-					Cursor c = getCursor();
-					// Move to relevant place
-					c.moveToPosition(position);
-					// Calculate index
-					int idx = c.getColumnIndex(Blacklist.COL_CONTACT_ID);
-					// Get id
-					long id = c.getLong(idx);
-					// Get name of contact
-					String name = ContactUtil.getContactName(getActivity(), id);
-		
-					text1.setText(name);
-		
-					return row;
-				}
-		};
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(),
+                android.R.layout.simple_list_item_1,
+                null,
+                new String[] { Blacklist.COL_ID },
+                new int[] { android.R.id.text1 },
+                0) {
+            @Override
+            public View getView(int position, View view, ViewGroup parent)
+            {
+                View row = super.getView(position, view, parent);
+                TextView text1 = (TextView)row.findViewById(android.R.id.text1);
 
-		setListAdapter(adapter);
-		getLoaderManager().initLoader(0, null, this);
+                // Get cursor
+                Cursor c = getCursor();
+                // Move to relevant place
+                c.moveToPosition(position);
+                // Calculate index
+                int idx = c.getColumnIndex(Blacklist.COL_CONTACT_ID);
+                // Get id
+                long id = c.getLong(idx);
+                // Get name of contact
+                String name = ContactUtil.getContactName(getActivity(), id);
 
-	}
+                text1.setText(name);
 
-	@Override
-	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-		return new CursorLoader(getActivity(), Provider.URI_BLACKLIST, Blacklist.FIELDS, null, null, null);
-	}
-	
-	@Override
-	public void onLoadFinished(Loader<Cursor> loader, Cursor c) {
-		((SimpleCursorAdapter) getListAdapter()).swapCursor(c);
-	}
-	
-	@Override
-	public void onLoaderReset(Loader<Cursor> arg0) {
-		((SimpleCursorAdapter) getListAdapter()).swapCursor(null);
-	}
+                return row;
+            }
+        };
 
-	@Override
-	public void onListItemClick(ListView list, View view, int position, long id) {
-		super.onListItemClick(list, view, position, id);
-		// get cursor
-		Cursor c = ((SimpleCursorAdapter)getListAdapter()).getCursor();
-		// move to the desired position
-		c.moveToPosition(position);
-		// pass it to our blacklist object
-		Blacklist blacklist = new Blacklist(c);
-		// Get name of contact
-		String contactName = ContactUtil.getContactName(getActivity(), blacklist.contactId);
+        setListAdapter(adapter);
+        getLoaderManager().initLoader(0, null, this);
+
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return new CursorLoader(getActivity(), Provider.URI_BLACKLIST, Blacklist.FIELDS, null, null, null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor c) {
+        ((SimpleCursorAdapter) getListAdapter()).swapCursor(c);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> arg0) {
+        ((SimpleCursorAdapter) getListAdapter()).swapCursor(null);
+    }
+
+    @Override
+    public void onListItemClick(ListView list, View view, int position, long id) {
+        super.onListItemClick(list, view, position, id);
+        // get cursor
+        Cursor c = ((SimpleCursorAdapter)getListAdapter()).getCursor();
+        // move to the desired position
+        c.moveToPosition(position);
+        // pass it to our blacklist object
+        Blacklist blacklist = new Blacklist(c);
+        // Get name of contact
+        String contactName = ContactUtil.getContactName(getActivity(), blacklist.contactId);
         // Format toast message
         String msg = getString(R.string.contact_removed_toast, contactName);
-		// Show toast
-		Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
-		// Append contact id to blacklist uri
-		Uri uri = Uri.withAppendedPath(Provider.URI_BLACKLIST, String.valueOf(blacklist.id));
-		// Use provider to remove contact from blacklist
-		getActivity().getContentResolver().delete(uri, null, null);
-	}
+        // Show toast
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+        // Append contact id to blacklist uri
+        Uri uri = Uri.withAppendedPath(Provider.URI_BLACKLIST, String.valueOf(blacklist.id));
+        // Use provider to remove contact from blacklist
+        getActivity().getContentResolver().delete(uri, null, null);
+    }
 
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		super.onCreateOptionsMenu(menu, inflater);
-		inflater.inflate(R.menu.blacklist, menu);
-	}
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.blacklist, menu);
+    }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item)
-	{
-		switch(item.getItemId())
-		{
-		case R.id.action_settings:
-			Intent settings = new Intent(getActivity(), Preferences.class);
-			startActivity(settings);
-			return true;
-		case R.id.action_add_contact:
-			pickContact();
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch(item.getItemId())
+        {
+            case R.id.action_settings:
+                Intent settings = new Intent(getActivity(), Preferences.class);
+                startActivity(settings);
+                return true;
+            case R.id.action_add_contact:
+                pickContact();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
-	/** Shows contact picker dialog
-	 */
-	public void pickContact() {
-		Intent intent = new Intent(Intent.ACTION_PICK, Contacts.CONTENT_URI);
-		intent.setType(Phone.CONTENT_TYPE); // Show user only contacts w/ phone numbers
-		startActivityForResult(intent, PICK_CONTACT_REQUEST);
-	}
+    /** Shows contact picker dialog
+     */
+    public void pickContact() {
+        Intent intent = new Intent(Intent.ACTION_PICK, Contacts.CONTENT_URI);
+        intent.setType(Phone.CONTENT_TYPE); // Show user only contacts w/ phone numbers
+        startActivityForResult(intent, PICK_CONTACT_REQUEST);
+    }
 
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-		super.onActivityResult(requestCode, resultCode, intent);
-		if(resultCode == Activity.RESULT_OK) {
-			if(requestCode == PICK_CONTACT_REQUEST) {
-				blacklistContact(intent);
-			}
-		}
-	}
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if(resultCode == Activity.RESULT_OK) {
+            if(requestCode == PICK_CONTACT_REQUEST) {
+                blacklistContact(intent);
+            }
+        }
+    }
 
-	private void blacklistContact(Intent intent)
-	{
-		Uri uri = intent.getData();
-		final long id = ContactUtil.getContactIdByUri(getActivity(), uri);
-		Log.d(TAG, "blacklist.contactId: " + id);
-		Blacklist blacklist = new Blacklist();
-		blacklist.contactId = id;
+    private void blacklistContact(Intent intent)
+    {
+        Uri uri = intent.getData();
+        final long id = ContactUtil.getContactIdByUri(getActivity(), uri);
+        Log.d(TAG, "blacklist.contactId: " + id);
+        Blacklist blacklist = new Blacklist();
+        blacklist.contactId = id;
 //		// TODO: use provider
-		try
-		{
-			DatabaseHandler.getInstance(getActivity()).putBlacklist(blacklist);
-		}
-		catch(SQLiteConstraintException e)
-		{
-			Toast.makeText(getActivity(), getActivity().getString(R.string.contact_already_balcklisted), Toast.LENGTH_SHORT).show();
-		}
-	}
+        try
+        {
+            DatabaseHandler.getInstance(getActivity()).putBlacklist(blacklist);
+        }
+        catch(SQLiteConstraintException e)
+        {
+            Toast.makeText(getActivity(), getActivity().getString(R.string.contact_already_balcklisted), Toast.LENGTH_SHORT).show();
+        }
+    }
 }
 

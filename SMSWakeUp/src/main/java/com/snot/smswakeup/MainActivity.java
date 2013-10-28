@@ -13,9 +13,7 @@ import android.widget.Toast;
 
 
 public class MainActivity extends Activity implements OnSharedPreferenceChangeListener {
-
-	public static final String TAG = "MainActivity";
-	public static final String INTENT_SILENCE = "1";
+	protected static final String TAG = "SmsWakeup";
 
 	private SharedPreferences prefs;
 	private String wakeUpCommand;
@@ -27,7 +25,6 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
 
 		if(SoundAlarm.getInstance().isPlaying())
 		{

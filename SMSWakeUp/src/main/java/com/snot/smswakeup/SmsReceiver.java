@@ -25,115 +25,117 @@ import com.snot.smswakeup.database.Provider;
  */
 public class SmsReceiver extends BroadcastReceiver {
 
-	private final static String TAG = "SmsReceiver";
-	Context context;
+    private final static String TAG = "SmsReceiver";
+    Context context;
 
-	SharedPreferences prefs;
-	public static final int NOTIFICATION_ID = 1;
+    SharedPreferences prefs;
+    public static final int NOTIFICATION_ID = 1;
 
-	@Override
-	public void onReceive(Context context, Intent intent) {
-		this.context = context;
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        this.context = context;
 
-		prefs = PreferenceManager.getDefaultSharedPreferences(context);
-		String wakeUpCommand = prefs.getString(Preferences.WAKEUP_CMD, Preferences.WAKEUP_CMD_DEFAULT);
-		boolean caseSensitiveCompare = prefs.getBoolean(Preferences.CASE_SENSITIVE_CMP, false);
+        prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String wakeUpCommand = prefs.getString(Preferences.WAKEUP_CMD, Preferences.WAKEUP_CMD_DEFAULT);
+        boolean caseSensitiveCompare = prefs.getBoolean(Preferences.CASE_SENSITIVE_CMP, false);
 
-		Bundle pudsBundle = intent.getExtras();
-		Object[] pdus = (Object[]) pudsBundle.get("pdus");
-		SmsMessage sms = SmsMessage.createFromPdu((byte[]) pdus[0]);
+        Bundle pudsBundle = intent.getExtras();
+        assert pudsBundle != null;
+        Object[] pdus = (Object[]) pudsBundle.get("pdus");
+        SmsMessage sms = SmsMessage.createFromPdu((byte[]) pdus[0]);
 
-		String phoneNumber = sms.getOriginatingAddress();
-		String message = sms.getMessageBody().trim();
+        String phoneNumber = sms.getOriginatingAddress();
+        String message = sms.getMessageBody().trim();
 
-		if(!caseSensitiveCompare)
-		{
-			wakeUpCommand = wakeUpCommand.toLowerCase();
-			message = message.toLowerCase();
-		}
+        if(!caseSensitiveCompare)
+        {
+            wakeUpCommand = wakeUpCommand.toLowerCase();
+            message = message.toLowerCase();
+        }
 
-		Log.d(TAG, phoneNumber);
-		boolean isBlacklisted = isBlacklisted(phoneNumber);
-		Log.d(TAG, "isBlacklisted: " + isBlacklisted);
+        Log.d(TAG, phoneNumber);
+        boolean isBlacklisted = isBlacklisted(phoneNumber);
+        Log.d(TAG, "isBlacklisted: " + isBlacklisted);
 
-		if(message.equals(wakeUpCommand) && !isBlacklisted)
-		{
-			// TODO: display DISPLAY_NAME instead of phone number
-			AlarmNotification(context.getString(R.string.notification_msg_from) + phoneNumber);
-			soundAlarm();
-		}
-		if(isBlacklisted)
-		{
-			BlacklistNotification(context.getString(R.string.notification_msg_from_blacklisted) + phoneNumber);
-		}
-	}
+        if(message.equals(wakeUpCommand) && !isBlacklisted)
+        {
+            // TODO: display DISPLAY_NAME instead of phone number
+            AlarmNotification(context.getString(R.string.notification_msg_from) + phoneNumber);
+            soundAlarm();
+        }
+        if(isBlacklisted)
+        {
+            BlacklistNotification(context.getString(R.string.notification_msg_from_blacklisted) + phoneNumber);
+        }
+    }
 
 
-	private void soundAlarm()
-	{
-		boolean maximizeVolume = prefs.getBoolean(Preferences.MAXIMIZE_VOLUME, Preferences.MAXIMIZE_VOLUME_DEFAULT);
-		// Maximize volume
-		if(maximizeVolume)
-		{
-			AudioManager am = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
-			am.setStreamVolume(AudioManager.STREAM_MUSIC, am.getStreamMaxVolume(AudioManager.STREAM_MUSIC), 0);
-		}
-		// Sound alarm
-		SoundAlarm.getInstance().initalizeMediaPlayer(context);
-		SoundAlarm.getInstance().start();
-	}
-	
-	private boolean isBlacklisted(String phoneNumber)
-	{
-		// get contact id from phonenumber
-		long[] ids = ContactUtil.getContactIdsByPhoneNumber(context, phoneNumber);
-		// see if contact id is listed in our db
-		// TODO: don't query for each... use sql IN clause
-		for(long id : ids)
-		{
-			Cursor cursor = context.getContentResolver().query(Provider.URI_BLACKLIST,
-				new String[] { Blacklist.COL_CONTACT_ID},
-				Blacklist.COL_CONTACT_ID + " = ?",
-				new String[] { String.valueOf(id) },
-				null);
-			if(cursor.getCount() > 0)
-			{
-				return(true);
-			}
-		}
-		return false;
-	}
+    private void soundAlarm()
+    {
+        boolean maximizeVolume = prefs.getBoolean(Preferences.MAXIMIZE_VOLUME, Preferences.MAXIMIZE_VOLUME_DEFAULT);
+        // Maximize volume
+        if(maximizeVolume)
+        {
+            AudioManager am = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
+            am.setStreamVolume(AudioManager.STREAM_MUSIC, am.getStreamMaxVolume(AudioManager.STREAM_MUSIC), 0);
+        }
+        // Sound alarm
+        SoundAlarm.getInstance().initializeMediaPlayer(context);
+        SoundAlarm.getInstance().start();
+    }
 
-	private void BlacklistNotification(String msg) {
-		Log.d(TAG, "BlacklistNotification");
-		Intent intent = new Intent(context, BlacklistActivity.class);
-		sendNotification(msg, intent);
-	}
+    private boolean isBlacklisted(String phoneNumber)
+    {
+        // get contact id from phonenumber
+        long[] ids = ContactUtil.getContactIdsByPhoneNumber(context, phoneNumber);
+        // see if contact id is listed in our db
+        // TODO: don't query for each... use sql IN clause
+        for(long id : ids)
+        {
+            Cursor cursor = context.getContentResolver().query(Provider.URI_BLACKLIST,
+                    new String[] { Blacklist.COL_CONTACT_ID},
+                    Blacklist.COL_CONTACT_ID + " = ?",
+                    new String[] { String.valueOf(id) },
+                    null);
+            assert cursor != null;
+            if(cursor.getCount() > 0)
+            {
+                return(true);
+            }
+        }
+        return false;
+    }
 
-	private void AlarmNotification(String msg) {
-		Log.d(TAG, "AlarmNotification");
-		Intent intent = new Intent(context, MainActivity.class);
-		intent.putExtra(MainActivity.INTENT_SILENCE, true);
-		sendNotification(msg, intent);
-	}
+    private void BlacklistNotification(String msg) {
+        Log.d(TAG, "BlacklistNotification");
+        Intent intent = new Intent(context, BlacklistActivity.class);
+        sendNotification(msg, intent);
+    }
 
-	private void sendNotification(String msg, Intent intent) {
-		NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+    private void AlarmNotification(String msg) {
+        Log.d(TAG, "AlarmNotification");
+        Intent intent = new Intent(context, MainActivity.class);
+        // no longer need since we kill the sound no  matter what in onCreate
+        //intent.putExtra(MainActivity.INTENT_SILENCE, true);
+        sendNotification(msg, intent);
+    }
 
-		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+    private void sendNotification(String msg, Intent intent) {
+        NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-		Notification notification = new NotificationCompat.Builder(context)
-			.setSmallIcon(R.drawable.ic_launcher)
-			.setContentTitle(context.getString(R.string.app_name))
-			.setStyle(new NotificationCompat.BigTextStyle())
-			.setContentText(msg)
-			.setContentIntent(contentIntent)
-			.build();
+        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-		notification.flags |= Notification.FLAG_AUTO_CANCEL;
+        Notification notification = new NotificationCompat.Builder(context)
+                .setSmallIcon(R.drawable.ic_launcher)
+                .setContentTitle(context.getString(R.string.app_name))
+                .setStyle(new NotificationCompat.BigTextStyle())
+                .setContentText(msg)
+                .setContentIntent(contentIntent)
+                .build();
 
-		notificationManager.notify(NOTIFICATION_ID, notification);
-	}
+        notification.flags |= Notification.FLAG_AUTO_CANCEL;
+
+        notificationManager.notify(NOTIFICATION_ID, notification);
+    }
 
 }
-
